@@ -32,23 +32,25 @@
             margin-bottom: 1rem; 
         }
 
-        /* Additional CSS for the phone icon animation */
+        /* Animation for rotating the phone icon */
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         .phone-container {
             text-align: center;
             margin-top: 1rem;
-            cursor: pointer; /* Changes cursor to pointer */
         }
 
         .phone-icon {
             width: 60px; /* Icon Width */
             height: 100px; /* Icon Height */
-            transition: transform 0.5s ease; /* Animation for rotation */
-            display: inline-block; /* Allows transform to apply correctly */
-        }
-
-        /* Rotate when hovered */
-        .phone-container:hover .phone-icon {
-            transform: rotate(90deg); /* Rotate to horizontal on hover */
+            animation: rotate 0.5s ease forwards; /* Run the rotation animation on load */
         }
 
         .table-container {
