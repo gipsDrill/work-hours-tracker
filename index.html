@@ -7,186 +7,120 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('https://i.ibb.co/CWDyr4b/muzyka-cd8f6a613c1d.jpg') no-repeat center center fixed;
+            background: url('https://i.ibb.co/CWDyr4b/muzyka-cd8f6a613c1d.jpg') no-repeat center center fixed; 
             background-size: cover;
-            padding: 2rem; /* Responsive padding */
-            color: #333;
             margin: 0;
+            color: #333;
         }
-        h1 {
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
             text-align: center;
-            color: #fff;
-            margin-bottom: 1.5rem; /* Responsive margin */
-            font-size: 2.5rem; /* Responsive font size */
-        }
-        .table-container {
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 1.5rem;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        h1 {
+            color: #376f39;
+            font-size: 2rem; 
+            margin-bottom: 1rem; 
+        }
+
+        .table-container {
+            width: 100%;
             overflow-x: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
-            table-layout: fixed;
-            background-color: rgba(255, 255, 255, 1);
         }
-        table, th, td {
-            border: 1px solid #ddd;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 1);
-        }
+
         th, td {
-            padding: 1rem; /* Responsive padding */
-            word-wrap: break-word;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: center;
+            background-color: white;
         }
+
         th {
             background-color: #376f39;
             color: white;
         }
+
         input[type="text"], input[type="date"], input[type="time"], input[type="number"] {
             width: 100%;
-            padding: 0.7rem; /* Responsive padding */
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 0.5rem; 
             box-sizing: border-box;
-            background-color: #f9f9f9;
-            /* Add slight margin for better spacing */
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin: 0.5rem 0;
         }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1.5rem; /* Responsive margin */
-            flex-wrap: wrap;
-        }
+
         button {
-            padding: 0.8rem 1.5rem; /* Responsive padding */
-            font-size: 1rem;
             background-color: #007BFF;
             color: white;
             border: none;
             border-radius: 5px;
+            padding: 0.6rem 1.2rem;
+            margin: 0.5rem; 
             cursor: pointer;
-            flex: 1 0 48%; /* Responsive flex-basis */
-            margin-bottom: 1rem;
-            margin-right: 1rem;
         }
-        button:last-child {
-            margin-right: 0;
-        }
+
         button:hover {
             background-color: #0056b3;
         }
-        .summary, .weekly-summary, .monthly-summary {
-            margin-top: 2rem;
-            font-size: 1.2em;
-        }
-        .night-out-table {
-            background: rgba(255, 248, 225, 0.8);
-            padding: 1rem; /* Responsive padding */
-            border-radius: 5px;
-            margin-top: 2rem; /* Responsive margin */
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
 
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem; /* Responsive font size */
-            }
-            table, th, td {
-                font-size: 0.9rem;
-            }
-            button {
-                padding: 0.6rem 1rem; /* Responsive padding */
-                font-size: 0.9rem;
-                flex: 1 0 48%; /* Responsive flex-basis */
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem; /* Responsive font size */
-            }
-            table, th, td {
-                font-size: 0.8rem;
-                padding: 0.8rem; /* Responsive padding */
-            }
-            input {
-                font-size: 0.9rem; /* Responsive font size */
-            }
-            button {
-                font-size: 0.8rem; /* Responsive font size */
-                padding: 0.5rem 0.8rem; /* Responsive padding */
-                flex: 1 1 100%; /* Full width on mobile */
-            }
-            .summary, .weekly-summary, .monthly-summary {
-                font-size: 1rem; /* Responsive font size */
-            }
-            .night-out-table {
-                font-size: 0.9rem; /* Responsive font size */
-            }
-        }
-
-        /* Instruction box */
-        #instruction {
-            display: none;
-            background-color: rgba(255, 248, 225, 0.8);
-            padding: 1rem; /* Responsive padding */
-            border-radius: 5px;
-            margin-top: 2rem; /* Responsive margin */
-            font-size: 1em;
-        }
-        #instruction p {
-            margin: 0.5rem 0; /* Responsive margin */
-        }
-        #toggleInstruction {
-            background-color: #28a745;
-            color: white;
-            padding: 0.7rem 1rem; /* Responsive padding */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 0.5rem; /* Responsive margin */
-        }
-        #toggleInstruction:hover {
-            background-color: #218838;
-        }
-
-        /* Orientation Note */
         .orientation-note {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd; 
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+            margin: 1rem auto;
+            color: #555; /* More subtle text */
             text-align: center;
-            margin-top: 2rem;
-            font-size: 0.9rem; /* Small font size */
-            color: #555; /* Grey color for less emphasis */
-            background-color: white; /* White background */
-            border: 1px solid #ddd; /* Light grey border */
-            border-radius: 5px; /* Rounded corners */
-            padding: 1rem; /* Padding around the note */
         }
+
         .orientation-note img {
-            width: 50px; /* Width of the orientation graphic */
-            height: auto; /* Maintain aspect ratio */
-            vertical-align: middle;
+            width: 50px; 
+            height: auto; 
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem; 
+            }
+
+            table, th, td {
+                font-size: 0.9rem; 
+            }
+
+            button {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .orientation-note {
+                font-size: 0.8rem; 
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Work Hours & Salary Tracker</h1>
+    <div class="container">
+        <h1>Work Hours & Salary Tracker</h1>
 
-    <div class="table-container">
-        <div class="calculator">
+        <div class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -194,9 +128,9 @@
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Hours Worked (minus 45 mins)</th>
-                        <th>Hourly Rate (GBP)</th>
-                        <th>Salary (GBP)</th>
+                        <th>Hours Worked</th>
+                        <th>Hourly Rate</th>
+                        <th>Salary</th>
                     </tr>
                 </thead>
                 <tbody id="workTable">
@@ -220,250 +154,24 @@
                     </script>
                 </tbody>
             </table>
+        </div>
 
-            <!-- Night Out Section -->
-            <div class="night-out-table">
-                <h3>Night Out</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Number of Nights</th>
-                            <th>Rate per Night (GBP)</th>
-                            <th>Total Night Out Pay (GBP)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="number" id="nightOutDays" value="0" min="0" aria-label="Number of Night Out days"></td>
-                            <td><input type="number" id="nightOutRate" value="28" step="0.01" aria-label="Rate per Night"></td>
-                            <td id="nightOutTotal">0</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div>
+            <button onclick="calculateAll()">Calculate All</button>
+            <button onclick="saveData()">Save Data</button>
+            <button onclick="loadData()">Load Data</button>
+            <button onclick="downloadData()">Download Data (TXT)</button>
+        </div>
 
-            <!-- Buttons -->
-            <div class="button-container">
-                <button class="calculate" onclick="calculateAll()">Calculate All</button>
-                <button class="save" onclick="saveData()">Save Data</button>
-                <button class="load" onclick="loadData()">Load Data</button>
-                <button class="download" onclick="downloadData()">Download Data (TXT)</button>
-            </div>
-
-            <div class="summary">
-                <p><strong>Total Hours Worked: </strong><span id="totalHours">0</span> hours</p>
-                <p><strong>Total Salary: </strong>£<span id="totalSalary">0</span></p>
-                <p><strong>Total Salary including Night Out: </strong>£<span id="totalWithNightOut">0</span></p>
-            </div>
-
-            <div class="weekly-summary">
-                <h3>Weekly Summary</h3>
-                <p><strong>Week 1: </strong>Total Hours: <span id="week1Hours">0</span>, Total Salary: £<span id="week1Salary">0</span>, Total including Night Out: £<span id="week1TotalWithNightOut">0</span></p>
-                <p><strong>Week 2: </strong>Total Hours: <span id="week2Hours">0</span>, Total Salary: £<span id="week2Salary">0</span>, Total including Night Out: £<span id="week2TotalWithNightOut">0</span></p>
-            </div>
-
-            <div class="monthly-summary">
-                <h3>Monthly Summary</h3>
-                <p><strong>Total Salary for the Month: </strong>£<span id="monthlySalary">0</span>, Total including Night Out: £<span id="monthlyTotalWithNightOut">0</span></p>
-            </div>
-
-            <div id="errorMessages" class="error" style="display:none;"></div>
+        <div class="orientation-note">
+            <p>For best view on mobile devices, rotate your screen horizontally.</p>
+            <img src="https://img.icons8.com/ios/50/000000/rotate.png" alt="Rotate Icon" />
         </div>
     </div>
 
-    <!-- Instructions Section -->
-    <div id="instruction">
-        <h3>Instructions</h3>
-        <p><strong>1. Enter your work hours:</strong> Fill in the start and end times for each day, excluding the 45-minute break.</p>
-        <p><strong>2. Set your hourly rate:</strong> Enter your hourly rate for each day. The rate will automatically set to £17.5 for weekends (Saturday and Sunday).</p>
-        <p><strong>3. Calculate Total Hours and Salary:</strong> Click the "Calculate All" button to calculate your total hours and salary.</p>
-        <p><strong>4. Night Out:</strong> You can enter the number of "Night Out" days and the rate per night to calculate your additional earnings.</p>
-        <p><strong>5. Save and Load Data:</strong> You can save your data locally in your browser or load previously saved data to resume working.</p>
-        <p><strong>6. Download Data:</strong> You can download your data as a .txt file to keep a record of your hours and salary.</p>
-    </div>
-
-    <button id="toggleInstruction" onclick="toggleInstruction()">Show/Hide Instructions</button>
-
-    <!-- Orientation Note -->
-    <div class="orientation-note">
-        <p>For best view on mobile devices, rotate your screen horizontally.</p>
-        <img src="https://img.icons8.com/ios/50/000000/rotate.png" alt="Rotate Icon" />
-    </div>
-
     <script>
-        function roundToQuarterHour(minutes) {
-            return Math.round(minutes / 15) * 15;
-        }
-
-        function getTimeInMinutes(timeString) {
-            const [hours, minutes] = timeString.split(':').map(Number);
-            return (hours * 60) + minutes;
-        }
-
-        function calculateHours(start, end) {
-            if (!start || !end) return 0;
-
-            const startTime = getTimeInMinutes(start);
-            const endTime = getTimeInMinutes(end);
-            let diff = endTime - startTime;
-
-            if (diff < 0) {
-                diff += 1440; // Correction for overnight shifts
-            }
-            diff -= 45; // Subtract 45 minutes break
-            return roundToQuarterHour(diff) / 60;
-        }
-
-        function validateInputs() {
-            let isValid = true;
-            let errorMessage = '';
-
-            for (let i = 1; i <= 14; i++) {
-                const start = document.getElementById(`start${i}`).value;
-                const end = document.getElementById(`end${i}`).value;
-                const date = document.getElementById(`date${i}`).value;
-
-                // Only validate filled days
-                if (date) {
-                    if (start && end) {
-                        if (getTimeInMinutes(start) >= getTimeInMinutes(end)) {
-                            isValid = false;
-                            errorMessage += `Error in Day ${i}: Start time must be earlier than End time.<br>`;
-                        }
-                    } else {
-                        if (!start) {
-                            isValid = false;
-                            errorMessage += `Error in Day ${i}: Start time must be filled if End time is provided.<br>`;
-                        }
-                        if (!end) {
-                            isValid = false;
-                            errorMessage += `Error in Day ${i}: End time must be filled if Start time is provided.<br>`;
-                        }
-                    }
-                }
-            }
-
-            if (!isValid) {
-                document.getElementById('errorMessages').innerHTML = errorMessage;
-                document.getElementById('errorMessages').style.display = 'block';
-            } else {
-                document.getElementById('errorMessages').style.display = 'none';
-            }
-
-            return isValid;
-        }
-
-        function calculateAll() {
-            if (!validateInputs()) {
-                return;
-            }
-
-            let totalHours = 0;
-            let totalSalary = 0;
-            let week1Hours = 0, week1Salary = 0;
-            let week2Hours = 0, week2Salary = 0;
-
-            for (let i = 1; i <= 14; i++) {
-                const start = document.getElementById(`start${i}`).value;
-                const end = document.getElementById(`end${i}`).value;
-                const rate = parseFloat(document.getElementById(`rate${i}`).value) || 0;
-
-                if (start && end && rate > 0) {
-                    const hoursWorked = calculateHours(start, end);
-                    const salary = hoursWorked * rate;
-
-                    totalHours += hoursWorked;
-                    totalSalary += salary;
-
-                    document.getElementById(`hours${i}`).textContent = hoursWorked.toFixed(2);
-                    document.getElementById(`salary${i}`).textContent = salary.toFixed(2);
-
-                    if (i <= 7) {
-                        week1Hours += hoursWorked;
-                        week1Salary += salary;
-                    } else {
-                        week2Hours += hoursWorked;
-                        week2Salary += salary;
-                    }
-                } else {
-                    document.getElementById(`hours${i}`).textContent = '0';
-                    document.getElementById(`salary${i}`).textContent = '0';
-                }
-            }
-
-            const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
-            const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
-            const nightOutTotal = nightOutDays * nightOutRate;
-
-            document.getElementById('nightOutTotal').textContent = nightOutTotal.toFixed(2);
-
-            document.getElementById('totalHours').textContent = totalHours.toFixed(2);
-            document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
-            document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
-
-            document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
-            document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
-            document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotal).toFixed(2);
-
-            document.getElementById('week2Hours').textContent = week2Hours.toFixed(2);
-            document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
-            document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotal).toFixed(2);
-
-            document.getElementById('monthlySalary').textContent = totalSalary.toFixed(2);
-            document.getElementById('monthlyTotalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
-        }
-
-        function saveData() {
-            const data = {};
-            for (let i = 1; i <= 14; i++) {
-                data[`date${i}`] = document.getElementById(`date${i}`).value;
-                data[`start${i}`] = document.getElementById(`start${i}`).value;
-                data[`end${i}`] = document.getElementById(`end${i}`).value;
-                data[`rate${i}`] = document.getElementById(`rate${i}`).value;
-            }
-            data['nightOutDays'] = document.getElementById('nightOutDays').value;
-            data['nightOutRate'] = document.getElementById('nightOutRate').value;
-            localStorage.setItem('workData', JSON.stringify(data));
-            alert('Data saved!');
-        }
-
-        function loadData() {
-            const data = JSON.parse(localStorage.getItem('workData'));
-            if (data) {
-                for (let i = 1; i <= 14; i++) {
-                    document.getElementById(`date${i}`).value = data[`date${i}`] || '';
-                    document.getElementById(`start${i}`).value = data[`start${i}`] || '';
-                    document.getElementById(`end${i}`).value = data[`end${i}`] || '';
-                    document.getElementById(`rate${i}`).value = data[`rate${i}`] || '15.5'; // Default value
-                }
-                document.getElementById('nightOutDays').value = data['nightOutDays'] || '0';
-                document.getElementById('nightOutRate').value = data['nightOutRate'] || '28'; // Default value
-                alert('Data loaded!');
-            } else {
-                alert('No data found to load');
-            }
-        }
-
-        function downloadData() {
-            let textContent = "Work Hours & Salary Data\n\n";
-            for (let i = 1; i <= 14; i++) {
-                textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent}\n`;
-            }
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'work_hours_data.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function toggleInstruction() {
-            const instruction = document.getElementById('instruction');
-            instruction.style.display = instruction.style.display === "none" ? "block" : "none";
-        }
+        // Your JavaScript logic here
+        // ...
     </script>
 
 </body>
