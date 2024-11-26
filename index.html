@@ -26,23 +26,23 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            overflow-x: auto; /* Włącza przewijanie poziome na małych ekranach */
+            overflow-x: auto;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            table-layout: fixed; /* Zapewnia równomierne rozmieszczenie kolumn */
-            background-color: rgba(255, 255, 255, 1); /* Pełne tło tabeli */
+            table-layout: fixed;
+            background-color: rgba(255, 255, 255, 1);
         }
         table, th, td {
             border: 1px solid #ddd;
             text-align: center;
-            background-color: rgba(255, 255, 255, 1); /* Pełne tło dla komórek */
+            background-color: rgba(255, 255, 255, 1);
         }
         th, td {
             padding: 12px 8px;
-            word-wrap: break-word; /* Zawijanie tekstu */
+            word-wrap: break-word; 
         }
         th {
             background-color: #376f39;
@@ -74,7 +74,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            flex: 1 1 22%; /* Elastyczne dopasowanie przycisków */
+            flex: 1 1 22%;
             margin-bottom: 10px;
             margin-right: 5px;
         }
@@ -94,6 +94,10 @@
             border-radius: 5px;
             margin-top: 30px;
         }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
 
         /* Responsywność */
         @media (max-width: 768px) {
@@ -112,13 +116,12 @@
         }
 
         @media (max-width: 480px) {
-            /* Poprawki dla urządzeń mobilnych */
             h1 {
                 font-size: 1.2rem;
             }
             table, th, td {
                 font-size: 0.8rem;
-                padding: 10px 5px; /* Zmniejszamy odstępy dla mniejszych ekranów */
+                padding: 10px 5px;
             }
             input {
                 font-size: 0.9rem;
@@ -126,7 +129,7 @@
             button {
                 font-size: 0.8rem;
                 padding: 8px 10px;
-                flex: 1 1 100%; /* Przyciski na pełną szerokość ekranu */
+                flex: 1 1 100%;
             }
             .summary, .weekly-summary, .monthly-summary {
                 font-size: 1rem;
@@ -159,12 +162,6 @@
         }
         #toggleInstruction:hover {
             background-color: #218838;
-        }
-
-        /* Error message styles */
-        .error {
-            color: red;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -199,7 +196,7 @@
                                     <td><input type="time" id="start${i}" aria-label="Start time for ${dayName}"></td>
                                     <td><input type="time" id="end${i}" aria-label="End time for ${dayName}"></td>
                                     <td id="hours${i}">0</td>
-                                    <td><input type="number" id="rate${i}" step="0.01" value="${rate}" aria-label="Hourly rate for ${dayName} GBP"></td>
+                                    <td><input type="number" id="rate${i}" step="0.01" value="${rate}" aria-label="Hourly rate for ${dayName}"></td>
                                     <td id="salary${i}">0</td>
                                 </tr>
                             `);
@@ -229,12 +226,12 @@
                 </table>
             </div>
 
-            <!-- Przyciski -->
+            <!-- Buttons -->
             <div class="button-container">
-                <button class="calculate" onclick="calculateAll()" aria-label="Calculate total hours and salary">Calculate All</button>
-                <button class="save" onclick="saveData()" aria-label="Save current work data">Save Data</button>
-                <button class="load" onclick="loadData()" aria-label="Load previously saved data">Load Data</button>
-                <button class="download" onclick="downloadData()" aria-label="Download current work data as .txt">Download Data (TXT)</button>
+                <button class="calculate" onclick="calculateAll()">Calculate All</button>
+                <button class="save" onclick="saveData()">Save Data</button>
+                <button class="load" onclick="loadData()">Load Data</button>
+                <button class="download" onclick="downloadData()">Download Data (TXT)</button>
             </div>
 
             <div class="summary">
@@ -292,7 +289,7 @@
                 diff += 1440; // Correction for overnight shifts
             }          
             diff -= 45; // Subtract 45 minutes break
-            return roundToQuarterHour(diff) / 60; // Return in hours
+            return roundToQuarterHour(diff) / 60;
         }
 
         function validateInputs() {
@@ -329,7 +326,7 @@
 
         function calculateAll() {
             if (!validateInputs()) {
-                return; // Don't proceed if validation fails
+                return; 
             }
 
             let totalHours = 0;
@@ -365,19 +362,16 @@
                 }
             }
 
-            // Night Out calculations
             const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
             const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
             const nightOutTotal = nightOutDays * nightOutRate;
 
             document.getElementById('nightOutTotal').textContent = nightOutTotal.toFixed(2);
 
-            // Update totals including Night Out
             document.getElementById('totalHours').textContent = totalHours.toFixed(2);
             document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
             document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
 
-            // Update weekly summary
             document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
             document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
             document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotal).toFixed(2);
@@ -386,7 +380,6 @@
             document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
             document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotal).toFixed(2);
 
-            // Monthly total
             document.getElementById('monthlySalary').textContent = totalSalary.toFixed(2);
             document.getElementById('monthlyTotalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
         }
