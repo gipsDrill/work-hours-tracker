@@ -26,16 +26,19 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            overflow-x: auto; /* Włącza przewijanie poziome na małych ekranach */
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            table-layout: auto; /* Elastyczne dopasowanie tabeli */
+            table-layout: fixed; /* Zapewnia równomierne rozmieszczenie kolumn */
+            background-color: rgba(255, 255, 255, 1); /* Pełne tło tabeli */
         }
         table, th, td {
             border: 1px solid #ddd;
             text-align: center;
+            background-color: rgba(255, 255, 255, 1); /* Pełne tło dla komórek */
         }
         th, td {
             padding: 12px 8px;
@@ -73,7 +76,7 @@
             cursor: pointer;
             flex: 1 1 22%; /* Elastyczne dopasowanie przycisków */
             margin-bottom: 10px;
-            margin-right: 5px; /* Dodajemy odstęp między przyciskami */
+            margin-right: 5px;
         }
         button:last-child {
             margin-right: 0;
@@ -94,7 +97,6 @@
 
         /* Responsywność */
         @media (max-width: 768px) {
-            /* Dostosowujemy rozmiary na średnich ekranach */
             h1 {
                 font-size: 1.5rem;
             }
@@ -110,12 +112,13 @@
         }
 
         @media (max-width: 480px) {
-            /* Dostosowanie do telefonów */
+            /* Poprawki dla urządzeń mobilnych */
             h1 {
                 font-size: 1.2rem;
             }
             table, th, td {
                 font-size: 0.8rem;
+                padding: 10px 5px; /* Zmniejszamy odstępy dla mniejszych ekranów */
             }
             input {
                 font-size: 0.9rem;
@@ -127,6 +130,9 @@
             }
             .summary, .weekly-summary, .monthly-summary {
                 font-size: 1rem;
+            }
+            .night-out-table {
+                font-size: 0.9rem;
             }
         }
 
