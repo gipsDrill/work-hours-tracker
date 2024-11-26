@@ -7,7 +7,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Nowe tło */
             background: url('https://i.ibb.co/CWDyr4b/muzyka-cd8f6a613c1d.jpg') no-repeat center center fixed; 
             background-size: cover;
             padding: 20px;
@@ -21,19 +20,18 @@
         }
         .table-container {
             position: relative;
-            max-width: 1000px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            overflow-x: auto; /* Dodajemy możliwość przewijania poziomego */
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            table-layout: auto; /* Automatyczne rozmieszczenie kolumn */
+            table-layout: auto; /* Elastyczne dopasowanie tabeli */
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -41,7 +39,7 @@
         }
         th, td {
             padding: 12px 8px;
-            word-wrap: break-word; /* Zawijanie długiego tekstu */
+            word-wrap: break-word; /* Zawijanie tekstu */
         }
         th {
             background-color: #376f39;
@@ -53,17 +51,17 @@
             font-size: 1rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* Umożliwia lepsze dopasowanie pól */
-            background-color: #f9f9f9; /* Delikatne tło, aby były bardziej widoczne */
+            box-sizing: border-box;
+            background-color: #f9f9f9;
         }
         input[type="date"], input[type="time"] {
-            cursor: pointer; /* Pokazuje, że można klikać */
+            cursor: pointer;
         }
         .button-container {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
-            flex-wrap: wrap; /* Umożliwia zawijanie przycisków w wąskich ekranach */
+            flex-wrap: wrap;
         }
         button {
             padding: 12px 20px;
@@ -73,8 +71,12 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 22%;
-            margin-bottom: 10px; /* Dodaje przerwę między przyciskami w wąskich ekranach */
+            flex: 1 1 22%; /* Elastyczne dopasowanie przycisków */
+            margin-bottom: 10px;
+            margin-right: 5px; /* Dodajemy odstęp między przyciskami */
+        }
+        button:last-child {
+            margin-right: 0;
         }
         button:hover {
             background-color: #0056b3;
@@ -92,7 +94,7 @@
 
         /* Responsywność */
         @media (max-width: 768px) {
-            /* Zmniejszamy rozmiar czcionek na średnich ekranach */
+            /* Dostosowujemy rozmiary na średnich ekranach */
             h1 {
                 font-size: 1.5rem;
             }
@@ -102,12 +104,13 @@
             button {
                 padding: 10px 15px;
                 font-size: 0.9rem;
-                width: 48%; /* Przyciski zajmują więcej miejsca na ekranie */
+                flex: 1 1 48%;
+                margin-bottom: 10px;
             }
         }
 
         @media (max-width: 480px) {
-            /* Zmniejszenie czcionek i dopasowanie tabeli do ekranu telefonów */
+            /* Dostosowanie do telefonów */
             h1 {
                 font-size: 1.2rem;
             }
@@ -120,17 +123,10 @@
             button {
                 font-size: 0.8rem;
                 padding: 8px 10px;
-                width: 100%; /* Przyciski na pełną szerokość ekranu */
-            }
-            .button-container {
-                display: block;
-                width: 100%;
+                flex: 1 1 100%; /* Przyciski na pełną szerokość ekranu */
             }
             .summary, .weekly-summary, .monthly-summary {
                 font-size: 1rem;
-            }
-            .night-out-table {
-                font-size: 0.9rem;
             }
         }
 
