@@ -1,8 +1,8 @@
 Work Hours & Salary Tracker
-Overview
+Overview:
 The Work Hours & Salary Tracker is a user-friendly web application designed to help individuals track their work hours, calculate their salaries, and manage additional payments for 'Night Out' shifts. The application is mobile-responsive, allowing you to manage your work hours from your phone or computer.
 
-Features
+Features:
 Work Hours Entry: Input daily work hours, start and end times, and your hourly rate.
 Salary Calculation: Automatically calculates total hours worked and pays based on your input.
 Night Out Tracking: Track additional earnings for night shifts.
@@ -27,7 +27,7 @@ Responsive Design: The application adjusts for mobile viewing. For the best expe
 
 Languages: Available in both English and Polish. Use the respective buttons to toggle between languages for instructions.
 
-Note
+Note:
 Data is stored in the local storage of your browser, allowing it to be loaded only on the same device.
 Technologies Used
 HTML
