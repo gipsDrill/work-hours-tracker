@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Work Hours &amp; Salary Tracker</title>
-<style>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Work Hours &amp; Salary Tracker</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background: url('https://i.ibb.co/CWDyr4b/muzyka-cd8f6a613c1d.jpg') no-repeat center center fixed; 
@@ -135,19 +134,13 @@
             text-align: center;
         }
 
-        .orientation-note img {
-            width: 50px; 
-            height: auto; 
-            margin-top: 0.5rem;
-        }
-
         .error {
             color: red;
             font-weight: bold;
             display: none; /* Hidden by default */
         }
 
-        #instruction {
+        .instruction {
             display: none;
             background-color: rgba(255, 248, 225, 0.8);
             padding: 1rem; 
@@ -159,7 +152,8 @@
             text-align: left;
         }
 
-        #toggleInstruction {
+        #toggleInstructionEnglish, 
+        #toggleInstructionPolish {
             background-color: #28a745;
             color: white;
             padding: 0.7rem 1rem; 
@@ -169,7 +163,8 @@
             margin-top: 0.5rem; 
         }
 
-        #toggleInstruction:hover {
+        #toggleInstructionEnglish:hover, 
+        #toggleInstructionPolish:hover {
             background-color: #218838;
         }
 
@@ -195,384 +190,452 @@
                 font-size: 0.8rem; 
             }
         }
+
+        /* Footer Styles */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            font-size: 0.8rem; /* Small font size */
+        }
+
+        .footer img {
+            width: 50px; /* Smaller image size */
+            height: auto;
+            margin-right: 5px; /* Spacing between image and text */
+        }
     </style>
 </head>
 <body>
 <div class="container">
-<h1>Work Hours &amp; Salary Tracker</h1>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Date</th>
-<th>Start Time</th>
-<th>End Time</th>
-<th>Hours Worked</th>
-<th>Hourly Rate</th>
-<th>Salary</th>
-</tr>
-</thead>
-<tbody id="workTable">
-<script>
-                        const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-                        for (let i = 1; i <= 14; i++) {
-                            const dayName = days[(i - 1) % 7];
-                            const rate = (dayName === "Sat" || dayName === "Sun") ? "17.5" : "15.5";
-                            document.write(`
-                                <tr>
-                                    <td><input type="text" value="${dayName}" readonly></td>
-                                    <td><input type="date" id="date${i}" aria-label="Date for ${dayName}"></td>
-                                    <td><input type="time" id="start${i}" aria-label="Start time for ${dayName}"></td>
-                                    <td><input type="time" id="end${i}" aria-label="End time for ${dayName}"></td>
-                                    <td id="hours${i}">0</td>
-                                    <td><input type="number" id="rate${i}" step="0.01" value="${rate}" aria-label="Hourly rate for ${dayName}"></td>
-                                    <td id="salary${i}">0</td>
-                                </tr>
-                            `);
-                        }
-                    </script>
-</tbody>
-</table>
-</div>
-<div class="night-out-table">
-<h3>Night Out</h3>
-<table>
-<thead>
-<tr>
-<th>Number of Nights</th>
-<th>Rate per Night (GBP)</th>
-<th>Total Night Out Pay (GBP)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><input aria-label="Number of Night Out days" id="nightOutDays" min="0" type="number" value="0"/></td>
-<td><input aria-label="Rate per Night" id="nightOutRate" step="0.01" type="number" value="28"/></td>
-<td id="nightOutTotal">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div>
-<button onclick="calculateAll()">Calculate All</button>
-<button onclick="saveData()">Save Data</button>
-<button onclick="loadData()">Load Data</button>
-<button onclick="downloadData()">Download Data (TXT)</button>
-</div>
-<div class="summary">
-<p><strong>Total Hours Worked: </strong><span id="totalHours">0</span> hours</p>
-<p><strong>Total Salary: </strong>£<span id="totalSalary">0</span></p>
-<p><strong>Total Salary including Night Out: </strong>£<span id="totalWithNightOut">0</span></p>
-</div>
-<div class="weekly-summary">
-<h3>Weekly Summary</h3>
-<p><strong>Week 1: </strong>Total Hours: <span id="week1Hours">0</span>, Total Salary: £<span id="week1Salary">0</span>, Total including Night Out: £<span id="week1TotalWithNightOut">0</span></p>
-<p><strong>Week 2: </strong>Total Hours: <span id="week2Hours">0</span>, Total Salary: £<span id="week2Salary">0</span>, Total including Night Out: £<span id="week2TotalWithNightOut">0</span></p>
-</div>
-<div class="monthly-summary">
-<h3>Monthly Summary</h3>
-<p><strong>Total Salary for the Month: </strong>£<span id="monthlySalary">0</span>, Total including Night Out: £<span id="monthlyTotalWithNightOut">0</span></p>
-</div>
-<div class="error" id="errorMessages"></div>
-<!-- Instructions Section -->
-<div id="instruction">
-<h3>Instrukcja Obsługi</h3>
-<p><strong>1. Wprowadzanie danych o godzinach pracy:</strong></p>
-<p>Wypełnij formularz, aby dodać godziny pracy na każdy dzień:</p>
-<ul>
-<li>Dzień tygodnia – dni są już wstępnie wypełnione (np. Poniedziałek, Wtorek itd.).</li>
-<li>Wprowadź datę pracy w odpowiedniej kolumnie „Date” (format: dzień-miesiąc-rok).</li>
-<li>Wprowadź godzinę rozpoczęcia pracy w polu „Start Time” oraz godzinę zakończenia pracy w polu „End Time”.</li>
-<li>Po wprowadzeniu daty i godzin, kliknij przycisk <strong>"Calculate All"</strong>, program automatycznie obliczy ilość przepracowanych godzin (minus 45min przerwa) i wynagrodzenie na podstawie stawki godzinowej.</li>
-</ul>
-<p><strong>2. Ustawienie stawki godzinowej:</strong></p>
-<p>Stawka godzinowa jest domyślnie ustawiona na 15,5 GBP na dzień roboczy. Dla weekendów (sobota i niedziela), stawka godzinowa jest automatycznie ustawiana na 17,5 GBP. Możesz zmieniać stawkę godzinową ręcznie, jeśli Twoja stawka jest inna niż domyślna.</p>
-<p><strong>3. Obliczanie godzin pracy i wynagrodzenia:</strong></p>
-<p>Po wprowadzeniu wszystkich danych (data, godzin rozpoczęcia, zakończenia i stawki), kliknij przycisk <strong>"Calculate All"</strong>, aby obliczyć:</p>
-<ul>
-<li><strong>Łączną liczbę godzin</strong> pracy dla całego okresu (14 dni).</li>
-<li><strong>Łączne wynagrodzenie</strong> na podstawie wprowadzonych danych (ilość godzin * stawka godzinowa).</li>
-</ul>
-<p><strong>4. Dodatkowe wynagrodzenie za "Night Out":</strong></p>
-<p>Jeśli masz dni pracy jako "Night Out", wprowadź liczbę takich dni w polu „Number of Nights” oraz stawkę za każdą noc (domyślnie 28 GBP). Program obliczy dodatkowe wynagrodzenie i doda je do Twojego łącznego wynagrodzenia.</p>
-<p><strong>5. Zapisanie danych:</strong></p>
-<p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarce (bez potrzeby logowania się czy rejestracji).</p>
-<ul>
-<li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarce, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
-<li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarki (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
-</ul>
-<p><strong>6. Ładowanie zapisanych danych:</strong></p>
-<p>Jeśli chcesz wczytać dane, które wcześniej zapisałeś, kliknij przycisk <strong>"Load Data"</strong> i następnie <strong>"Calculate All"</strong>. Program załaduje zapisane dane z Twojej przeglądarki i uzupełni formularz o te informacje.</p>
-<ul>
-<li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
-</ul>
-<p><strong>7. Pobieranie danych jako plik:</strong></p>
-<p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong>. Spowoduje to utworzenie pliku tekstowego (.txt), który będzie zawierał wszystkie wprowadzone dane o godzinach pracy, stawkach i wynagrodzeniu. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
-<p><strong>8. Dodanie ikony szybkiego dostępu na pulpit:</strong></p>
-<p>Jeśli chcesz szybko otwierać narzędzie bezpośrednio z ekranu głównego telefonu, wykonaj poniższe kroki:</p>
-<ul>
-<li><strong>Na telefonach z systemem Android:</strong></li>
-<ol>
-<li>Otwórz stronę w przeglądarce Chrome.</li>
-<li>Kliknij w ikonę <strong>trzech kropek</strong> w prawym górnym rogu przeglądarki.</li>
-<li>Wybierz opcję <strong>„Dodaj do ekranu głównego”</strong>.</li>
-<li>Nadaj nazwę ikonie, np. „Tracker Godzin”.</li>
-<li>Kliknij <strong>„Dodaj”</strong>, a następnie potwierdź, wybierając miejsce na ekranie głównym.</li>
-</ol>
-<li><strong>Na telefonach z systemem iOS (iPhone):</strong></li>
-<ol>
-<li>Otwórz stronę w przeglądarce Safari.</li>
-<li>Kliknij ikonę <strong>Udostępnij</strong> (prostokąt ze strzałką w górę) znajdującą się na dole ekranu.</li>
-<li>Wybierz opcję <strong>„Dodaj do ekranu początkowego”</strong>.</li>
-<li>Nadaj nazwę ikonie, np. „Tracker Godzin”.</li>
-<li>Kliknij <strong>Dodaj</strong>, aby utworzyć skrót na ekranie głównym.</li>
-</ol>
-</ul>
-</div>
-<button id="showPolishInstruction" onclick="toggleInstructionLanguage('polish')">Instrukcja (Polski)</button>
-<button id="showEnglishInstruction" onclick="toggleInstructionLanguage('english')">Instructions (English)</button>
-<script>
-function toggleInstructionLanguage(language) {
-    const polishInstruction = document.getElementById('instruction');
-    const englishInstruction = document.getElementById('instructionEnglish');
-    if (language === 'polish') {
-        polishInstruction.style.display = 'block';
-        englishInstruction.style.display = 'none';
-    } else {
-        polishInstruction.style.display = 'none';
-        englishInstruction.style.display = 'block';
-    }
-}
-</script>
-<div id="instructionEnglish" style="display:none;">
-<h3>Instructions</h3>
-<p><strong>1. Entering work hour data:</strong></p>
-<p>Fill out the form to add work hours for each day:</p>
-<ul>
-<li>Day of the week – days are pre-filled (e.g., Monday, Tuesday, etc.).</li>
-<li>Enter the work date in the appropriate "Date" column (format: day-month-year).</li>
-<li>Enter the start time in the "Start Time" field and the end time in the "End Time" field.</li>
-<li>After entering the date and times, click the <strong>"Calculate All"</strong> button. The program will automatically calculate the hours worked (minus a 45-minute break) and the salary based on the hourly rate.</li>
-</ul>
-</div>
-<button id="toggleInstruction" onclick="toggleInstruction()">Show/Hide Instructions</button>
-<!-- Continuously Rotating Mobile Phone Icon -->
-<div class="phone-container">
-<p>For best view on mobile devices, rotate your screen horizontally.</p>
-<svg class="phone-icon" fill="none" style="color: #376f39;" viewbox="0 0 24 40" xmlns="http://www.w3.org/2000/svg">
-<rect fill="none" height="38" rx="2" ry="2" stroke="currentColor" stroke-width="2" width="18" x="3" y="1"></rect>
-<rect fill="currentColor" height="2" width="8" x="8" y="33"></rect>
-<circle cx="12" cy="4" fill="currentColor" r="1.5"></circle>
-</svg>
-</div>
-</div>
-<script>
-        function roundToQuarterHour(minutes) {
-            return Math.round(minutes / 15) * 15;
-        }
-
-        function getTimeInMinutes(timeString) {
-            const [hours, minutes] = timeString.split(':').map(Number);
-            return (hours * 60) + minutes;
-        }
-
-        function calculateHours(start, end) {
-            if (!start || !end) return 0;
-
-            const startTime = getTimeInMinutes(start);
-            const endTime = getTimeInMinutes(end);
-            let diff = endTime - startTime;
-
-            if (diff < 0) {
-                diff += 1440; // Correction for overnight shifts
-            }
-            diff -= 45; // Subtract 45 minutes break
-            return roundToQuarterHour(diff) / 60;
-        }
-
-        function validateInputs() {
-            let isValid = true;
-            let errorMessage = '';
-
-            for (let i = 1; i <= 14; i++) {
-                const start = document.getElementById(`start${i}`).value;
-                const end = document.getElementById(`end${i}`).value;
-                const date = document.getElementById(`date${i}`).value;
-
-                // Only validate filled days
-                if (date) {
-                    if (start && end) {
-                        if (getTimeInMinutes(start) >= getTimeInMinutes(end)) {
-                            isValid = false;
-                            errorMessage += `Error in Day ${i}: Start time must be earlier than End time.<br>`;
-                        }
-                    } else {
-                        if (!start) {
-                            isValid = false;
-                            errorMessage += `Error in Day ${i}: Start time must be filled if End time is provided.<br>`;
-                        }
-                        if (!end) {
-                            isValid = false;
-                            errorMessage += `Error in Day ${i}: End time must be filled if Start time is provided.<br>`;
-                        }
+    <h1>Work Hours &amp; Salary Tracker</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Hours Worked</th>
+                    <th>Hourly Rate</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody id="workTable">
+                <script>
+                    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+                    for (let i = 1; i <= 14; i++) {
+                        const dayName = days[(i - 1) % 7];
+                        const rate = (dayName === "Sat" || dayName === "Sun") ? "17.5" : "15.5";
+                        document.write(`
+                            <tr>
+                                <td><input type="text" value="${dayName}" readonly></td>
+                                <td><input type="date" id="date${i}" aria-label="Date for ${dayName}"></td>
+                                <td><input type="time" id="start${i}" aria-label="Start time for ${dayName}"></td>
+                                <td><input type="time" id="end${i}" aria-label="End time for ${dayName}"></td>
+                                <td id="hours${i}">0</td>
+                                <td><input type="number" id="rate${i}" step="0.01" value="${rate}" aria-label="Hourly rate for ${dayName}"></td>
+                                <td id="salary${i}">0</td>
+                            </tr>
+                        `);
                     }
-                }
-            }
+                </script>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="night-out-table">
+        <h3>Night Out</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Number of Nights</th>
+                    <th>Rate per Night (GBP)</th>
+                    <th>Total Night Out Pay (GBP)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input aria-label="Number of Night Out days" id="nightOutDays" min="0" type="number" value="0"/></td>
+                    <td><input aria-label="Rate per Night" id="nightOutRate" step="0.01" type="number" value="28"/></td>
+                    <td id="nightOutTotal">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-            if (!isValid) {
-                document.getElementById('errorMessages').innerHTML = errorMessage;
-                document.getElementById('errorMessages').style.display = 'block';
-            } else {
-                document.getElementById('errorMessages').style.display = 'none';
-            }
+    <div>
+        <button onclick="calculateAll()">Calculate All</button>
+        <button onclick="saveData()">Save Data</button>
+        <button onclick="loadData()">Load Data</button>
+        <button onclick="downloadData()">Download Data (TXT)</button>
+    </div>
 
-            return isValid;
+    <div class="summary">
+        <p><strong>Total Hours Worked: </strong><span id="totalHours">0</span> hours</p>
+        <p><strong>Total Salary: </strong>£<span id="totalSalary">0</span></p>
+        <p><strong>Total Salary including Night Out: </strong>£<span id="totalWithNightOut">0</span></p>
+    </div>
+
+    <div class="weekly-summary">
+        <h3>Weekly Summary</h3>
+        <p><strong>Week 1: </strong>Total Hours: <span id="week1Hours">0</span>, Total Salary: £<span id="week1Salary">0</span>, Total including Night Out: £<span id="week1TotalWithNightOut">0</span></p>
+        <p><strong>Week 2: </strong>Total Hours: <span id="week2Hours">0</span>, Total Salary: £<span id="week2Salary">0</span>, Total including Night Out: £<span id="week2TotalWithNightOut">0</span></p>
+    </div>
+
+    <div class="monthly-summary">
+        <h3>Monthly Summary</h3>
+        <p><strong>Total Salary for the Month: </strong>£<span id="monthlySalary">0</span>, Total including Night Out: £<span id="monthlyTotalWithNightOut">0</span></p>
+    </div>
+
+    <div class="error" id="errorMessages"></div>
+
+    <!-- Instructions Section -->
+    <button id="toggleInstructionPolish" onclick="toggleInstructionLanguage('polish')">Show/Hide Polish Instructions</button>
+    <button id="toggleInstructionEnglish" onclick="toggleInstructionLanguage('english')">Show/Hide English Instructions</button>
+
+    <div id="instructionPolish" class="instruction">
+        <h3>Instrukcja Obsługi</h3>
+        <p><strong>1. Wprowadzanie danych o godzinach pracy:</strong></p>
+        <p>Wypełnij formularz, aby dodać godziny pracy na każdy dzień:</p>
+        <ul>
+            <li>Dzień tygodnia – dni są już wstępnie wypełnione (np. Poniedziałek, Wtorek itd.).</li>
+            <li>Wprowadź datę pracy w odpowiedniej kolumnie „Date” (format: dzień-miesiąc-rok).</li>
+            <li>Wprowadź godzinę rozpoczęcia pracy w polu „Start Time” oraz godzinę zakończenia pracy w polu „End Time”.</li>
+            <li>Po wprowadzeniu daty i godzin, kliknij przycisk <strong>"Calculate All"</strong>, program automatycznie obliczy ilość przepracowanych godzin (minus 45min przerwa) i wynagrodzenie na podstawie stawki godzinowej.</li>
+        </ul>
+        <p><strong>2. Ustawienie stawki godzinowej:</strong></p>
+        <p>Stawka godzinowa jest domyślnie ustawiona na 15,5 GBP na dzień roboczy. Dla weekendów (sobota i niedziela), stawka godzinowa jest automatycznie ustawiana na 17,5 GBP. Możesz zmieniać stawkę godzinową ręcznie, jeśli Twoja stawka jest inna niż domyślna.</p>
+        <p><strong>3. Obliczanie godzin pracy i wynagrodzenia:</strong></p>
+        <p>Po wprowadzeniu wszystkich danych (data, godzin rozpoczęcia, zakończenia i stawki), kliknij przycisk <strong>"Calculate All"</strong>, aby obliczyć:</p>
+        <ul>
+            <li><strong>Łączną liczbę godzin</strong> pracy dla całego okresu (14 dni).</li>
+            <li><strong>Łączne wynagrodzenie</strong> na podstawie wprowadzonych danych (ilość godzin * stawka godzinowa).</li>
+        </ul>
+        <p><strong>4. Dodatkowe wynagrodzenie za "Night Out":</strong></p>
+        <p>Jeśli masz dni pracy jako "Night Out", wprowadź liczbę takich dni w polu „Number of Nights” oraz stawkę za każdą noc (domyślnie 28 GBP). Program obliczy dodatkowe wynagrodzenie i doda je do Twojego łącznego wynagrodzenia.</p>
+        <p><strong>5. Zapisanie danych:</strong></p>
+        <p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarce (bez potrzeby logowania się czy rejestracji).</p>
+        <ul>
+            <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarce, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
+            <li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarki (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
+        </ul>
+        <p><strong>6. Ładowanie zapisanych danych:</strong></p>
+        <p>Jeśli chcesz wczytać dane, które wcześniej zapisałeś, kliknij przycisk <strong>"Load Data"</strong> i następnie <strong>"Calculate All"</strong>. Program załaduje zapisane dane z Twojej przeglądarki i uzupełni formularz o te informacje.</p>
+        <ul>
+            <li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
+        </ul>
+        <p><strong>7. Pobieranie danych jako plik:</strong></p>
+        <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong>. Spowoduje to utworzenie pliku tekstowego (.txt), który będzie zawierał wszystkie wprowadzone dane o godzinach pracy, stawkach i wynagrodzeniu. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
+        <p><strong>8. Dodanie ikony szybkiego dostępu na pulpit:</strong></p>
+        <p>Jeśli chcesz szybko otwierać narzędzie bezpośrednio z ekranu głównego telefonu, wykonaj poniższe kroki:</p>
+        <ul>
+            <li><strong>Na telefonach z systemem Android:</strong></li>
+            <ol>
+                <li>Otwórz stronę w przeglądarce Chrome.</li>
+                <li>Kliknij w ikonę <strong>trzech kropek</strong> w prawym górnym rogu przeglądarki.</li>
+                <li>Wybierz opcję <strong>„Dodaj do ekranu głównego”</strong>.</li>
+                <li>Nadaj nazwę ikonie, np. „Tracker Godzin”.</li>
+                <li>Kliknij <strong>„Dodaj”</strong>, a następnie potwierdź, wybierając miejsce na ekranie głównym.</li>
+            </ol>
+            <li><strong>Na telefonach z systemem iOS (iPhone):</strong></li>
+            <ol>
+                <li>Otwórz stronę w przeglądarce Safari.</li>
+                <li>Kliknij ikonę <strong>Udostępnij</strong> (prostokąt ze strzałką w górę) znajdującą się na dole ekranu.</li>
+                <li>Wybierz opcję <strong>„Dodaj do ekranu początkowego”</strong>.</li>
+                <li>Nadaj nazwę ikonie, np. „Tracker Godzin”.</li>
+                <li>Kliknij <strong>Dodaj</strong>, aby utworzyć skrót na ekranie głównym.</li>
+            </ol>
+        </ul>
+    </div>
+
+    <div id="instructionEnglish" class="instruction">
+        <h3>Instructions</h3>
+        <p><strong>1. Entering work hour data:</strong></p>
+        <p>Fill out the form to add work hours for each day:</p>
+        <ul>
+            <li>Day of the week – days are pre-filled (e.g., Monday, Tuesday, etc.).</li>
+            <li>Enter the work date in the appropriate "Date" column (format: day-month-year).</li>
+            <li>Enter the start time in the "Start Time" field and the end time in the "End Time" field.</li>
+            <li>After entering the date and times, click the <strong>"Calculate All"</strong> button. The program will automatically calculate the hours worked (minus a 45-minute break) and the salary based on the hourly rate.</li>
+        </ul>
+        <p><strong>2. Setting the hourly rate:</strong></p>
+        <p>The hourly rate is set to a default of £15.5 for weekdays. For weekends (Saturday and Sunday), the hourly rate is automatically set to £17.5. You can change the hourly rate manually if your rate is different from the default.</p>
+        <p><strong>3. Calculating work hours and salary:</strong></p>
+        <p>After entering all data (date, start time, end time, and rate), click the <strong>"Calculate All"</strong> button to calculate:</p>
+        <ul>
+            <li><strong>Total number of hours</strong> worked for the entire period (14 days).</li>
+            <li><strong>Total salary</strong> based on the entered data (number of hours * hourly rate).</li>
+        </ul>
+        <p><strong>4. Additional earnings for "Night Out":</strong></p>
+        <p>If you have work days classified as "Night Out," enter the number of such days in the "Number of Nights" field along with the rate for each night (default £28). The program will calculate the additional earnings and add them to your total salary.</p>
+        <p><strong>5. Saving your data:</strong></p>
+        <p>Before leaving the page or if you want to keep your data for later, click the <strong>"Save Data"</strong> button to save all entered data (work hours, rates, and salary). The data will be saved in your browser (no login or registration required).</p>
+        <ul>
+            <li><strong>How does it work?</strong> Your data will be stored locally in your browser, so next time you open the page, you can load the same data without re-entering it.</li>
+            <li><strong>Where is it saved?</strong> The data is stored in the browser (in "localStorage"), so it is only accessible on the device you saved it on.</li>
+        </ul>
+        <p><strong>6. Loading saved data:</strong></p>
+        <p>If you want to load data you previously saved, click the <strong>"Load Data"</strong> button and then <strong>"Calculate All"</strong>. The program will load the saved data from your browser and fill the form with that information.</p>
+        <ul>
+            <li><strong>How does it work?</strong> Clicking “Load Data” automatically retrieves the saved data from local storage and displays it on the page, so you don't have to re-enter it.</li>
+        </ul>
+        <p><strong>7. Downloading data as a file:</strong></p>
+        <p>If you want to download your data, click the <strong>"Download Data (TXT)"</strong> button. This will create a text file (.txt) that will contain all the entered work hour data, rates, and salaries. You can save this file to your computer to keep a copy of your data in text format.</p>
+        <p><strong>8. Adding a shortcut icon to the home screen:</strong></p>
+        <p>If you want to quickly open the tool directly from your phone's home screen, follow the steps below:</p>
+        <ul>
+            <li><strong>On Android phones:</strong></li>
+            <ol>
+                <li>Open the page in the Chrome browser.</li>
+                <li>Click the <strong>three dots</strong> icon in the upper right corner of the browser.</li>
+                <li>Select the <strong>“Add to home screen”</strong> option.</li>
+                <li>Name the icon, e.g., “Work Hours Tracker”.</li>
+                <li>Click <strong>“Add”</strong>, and then confirm by selecting a place on the home screen.</li>
+            </ol>
+            <li><strong>On iOS (iPhone) phones:</strong></li>
+            <ol>
+                <li>Open the page in the Safari browser.</li>
+                <li>Click the <strong>Share</strong> icon (rectangle with an arrow pointing up) located at the bottom of the screen.</li>
+                <li>Select the <strong>“Add to Home Screen”</strong> option.</li>
+                <li>Name the icon, e.g., “Work Hours Tracker”.</li>
+                <li>Click <strong>Add</strong> to create a shortcut on your home screen.</li>
+            </ol>
+        </ul>
+    </div>
+
+    <!-- Continuously Rotating Mobile Phone Icon -->
+    <div class="phone-container">
+        <p>For best view on mobile devices, rotate your screen horizontally.</p>
+        <svg class="phone-icon" fill="none" style="color: #376f39;" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="none" height="38" rx="2" ry="2" stroke="currentColor" stroke-width="2" width="18" x="3" y="1"></rect>
+            <rect fill="currentColor" height="2" width="8" x="8" y="33"></rect>
+            <circle cx="12" cy="4" fill="currentColor" r="1.5"></circle>
+        </svg>
+    </div>
+
+    <!-- Footer with Image and Copyright Text -->
+    <div class="footer">
+        <a href="https://ibb.co/QKywb6q">
+            <img src="https://i.ibb.co/sV8YmFD/yoda-dj-green-logo-zz-KOPIA-B-W.jpg" alt="yoda-dj-green-logo-zz-KOPIA-B-W">
+        </a>
+        <span>Copyright © GipsDrill 2024</span>
+    </div>
+</div>
+
+<script>
+    function toggleInstructionLanguage(language) {
+        const polishInstruction = document.getElementById('instructionPolish');
+        const englishInstruction = document.getElementById('instructionEnglish');
+        if (language === 'polish') {
+            polishInstruction.style.display = polishInstruction.style.display === 'block' ? 'none' : 'block';
+        } else if (language === 'english') {
+            englishInstruction.style.display = englishInstruction.style.display === 'block' ? 'none' : 'block';
         }
+    }
+    
+    function roundToQuarterHour(minutes) {
+        return Math.round(minutes / 15) * 15;
+    }
 
-        function calculateAll() {
-            if (!validateInputs()) {
-                return;
-            }
+    function getTimeInMinutes(timeString) {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        return (hours * 60) + minutes;
+    }
 
-            let totalHours = 0;
-            let totalSalary = 0;
-            let week1Hours = 0, week1Salary = 0;
-            let week2Hours = 0, week2Salary = 0;
+    function calculateHours(start, end) {
+        if (!start || !end) return 0;
 
-            for (let i = 1; i <= 14; i++) {
-                const start = document.getElementById(`start${i}`).value;
-                const end = document.getElementById(`end${i}`).value;
-                const rate = parseFloat(document.getElementById(`rate${i}`).value) || 0;
+        const startTime = getTimeInMinutes(start);
+        const endTime = getTimeInMinutes(end);
+        let diff = endTime - startTime;
 
-                if (start && end && rate > 0) {
-                    const hoursWorked = calculateHours(start, end);
-                    const salary = hoursWorked * rate;
+        if (diff < 0) {
+            diff += 1440; // Correction for overnight shifts
+        }
+        diff -= 45; // Subtract 45 minutes break
+        return roundToQuarterHour(diff) / 60;
+    }
 
-                    totalHours += hoursWorked;
-                    totalSalary += salary;
+    function validateInputs() {
+        let isValid = true;
+        let errorMessage = '';
 
-                    document.getElementById(`hours${i}`).textContent = hoursWorked.toFixed(2);
-                    document.getElementById(`salary${i}`).textContent = salary.toFixed(2);
+        for (let i = 1; i <= 14; i++) {
+            const start = document.getElementById(`start${i}`).value;
+            const end = document.getElementById(`end${i}`).value;
+            const date = document.getElementById(`date${i}`).value;
 
-                    if (i <= 7) {
-                        week1Hours += hoursWorked;
-                        week1Salary += salary;
-                    } else {
-                        week2Hours += hoursWorked;
-                        week2Salary += salary;
+            // Only validate filled days
+            if (date) {
+                if (start && end) {
+                    if (getTimeInMinutes(start) >= getTimeInMinutes(end)) {
+                        isValid = false;
+                        errorMessage += `Error in Day ${i}: Start time must be earlier than End time.<br>`;
                     }
                 } else {
-                    document.getElementById(`hours${i}`).textContent = '0';
-                    document.getElementById(`salary${i}`).textContent = '0';
-                }
-            }
-
-            const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
-            const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
-            const nightOutTotal = nightOutDays * nightOutRate;
-
-            document.getElementById('nightOutTotal').textContent = nightOutTotal.toFixed(2);
-
-            document.getElementById('totalHours').textContent = totalHours.toFixed(2);
-            document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
-            document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
-
-            document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
-            document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
-            document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotal).toFixed(2);
-
-            document.getElementById('week2Hours').textContent = week2Hours.toFixed(2);
-            document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
-            document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotal).toFixed(2);
-
-            document.getElementById('monthlySalary').textContent = totalSalary.toFixed(2);
-            document.getElementById('monthlyTotalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
-            calculateMonthlyTotals();
-        }
-
-        function calculateMonthlyTotals() {
-            const now = new Date(); // Pobierz aktualną datę
-            const currentMonth = now.getMonth(); // Miesiące są indeksowane od 0 (0 = styczeń)
-            const currentYear = now.getFullYear(); // Pobierz bieżący rok
-
-            let monthlyHours = 0;
-            let monthlySalary = 0;
-
-            for (let i = 1; i <= 14; i++) {
-                const date = document.getElementById(`date${i}`).value;
-                const hours = parseFloat(document.getElementById(`hours${i}`).textContent) || 0;
-                const salary = parseFloat(document.getElementById(`salary${i}`).textContent) || 0;
-
-                if (date) {
-                    const entryDate = new Date(date);
-                    if (entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear) {
-                        monthlyHours += hours;
-                        monthlySalary += salary;
+                    if (!start) {
+                        isValid = false;
+                        errorMessage += `Error in Day ${i}: Start time must be filled if End time is provided.<br>`;
+                    }
+                    if (!end) {
+                        isValid = false;
+                        errorMessage += `Error in Day ${i}: End time must be filled if Start time is provided.<br>`;
                     }
                 }
             }
-
-            const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
-            const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
-            const nightOutTotal = nightOutDays * nightOutRate;
-
-            // Wyświetlanie wyników w sekcji Monthly Summary
-            document.getElementById('monthlySalary').textContent = monthlySalary.toFixed(2);
-            document.getElementById('monthlyTotalWithNightOut').textContent = (monthlySalary + nightOutTotal).toFixed(2);
         }
 
-        function saveData() {
-            const data = {};
-            for (let i = 1; i <= 14; i++) {
-                data[`date${i}`] = document.getElementById(`date${i}`).value;
-                data[`start${i}`] = document.getElementById(`start${i}`).value;
-                data[`end${i}`] = document.getElementById(`end${i}`).value;
-                data[`rate${i}`] = document.getElementById(`rate${i}`).value;
-            }
-            data['nightOutDays'] = document.getElementById('nightOutDays').value;
-            data['nightOutRate'] = document.getElementById('nightOutRate').value;
-            localStorage.setItem('workData', JSON.stringify(data));
-            alert('Data saved!');
+        if (!isValid) {
+            document.getElementById('errorMessages').innerHTML = errorMessage;
+            document.getElementById('errorMessages').style.display = 'block';
+        } else {
+            document.getElementById('errorMessages').style.display = 'none';
         }
 
-        function loadData() {
-            const data = JSON.parse(localStorage.getItem('workData'));
-            if (data) {
-                for (let i = 1; i <= 14; i++) {
-                    document.getElementById(`date${i}`).value = data[`date${i}`] || '';
-                    document.getElementById(`start${i}`).value = data[`start${i}`] || '';
-                    document.getElementById(`end${i}`).value = data[`end${i}`] || '';
-                    document.getElementById(`rate${i}`).value = data[`rate${i}`] || '15.5'; 
+        return isValid;
+    }
+
+    function calculateAll() {
+        if (!validateInputs()) {
+            return;
+        }
+
+        let totalHours = 0;
+        let totalSalary = 0;
+        let week1Hours = 0, week1Salary = 0;
+        let week2Hours = 0, week2Salary = 0;
+
+        for (let i = 1; i <= 14; i++) {
+            const start = document.getElementById(`start${i}`).value;
+            const end = document.getElementById(`end${i}`).value;
+            const rate = parseFloat(document.getElementById(`rate${i}`).value) || 0;
+
+            if (start && end && rate > 0) {
+                const hoursWorked = calculateHours(start, end);
+                const salary = hoursWorked * rate;
+
+                totalHours += hoursWorked;
+                totalSalary += salary;
+
+                document.getElementById(`hours${i}`).textContent = hoursWorked.toFixed(2);
+                document.getElementById(`salary${i}`).textContent = salary.toFixed(2);
+
+                if (i <= 7) {
+                    week1Hours += hoursWorked;
+                    week1Salary += salary;
+                } else {
+                    week2Hours += hoursWorked;
+                    week2Salary += salary;
                 }
-                document.getElementById('nightOutDays').value = data['nightOutDays'] || '0';
-                document.getElementById('nightOutRate').value = data['nightOutRate'] || '28'; 
-                alert('Data loaded!');
             } else {
-                alert('No data found to load');
+                document.getElementById(`hours${i}`).textContent = '0';
+                document.getElementById(`salary${i}`).textContent = '0';
             }
         }
 
-        function downloadData() {
-            let textContent = "Work Hours & Salary Data\n\n";
+        const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
+        const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
+        const nightOutTotal = nightOutDays * nightOutRate;
+
+        document.getElementById('nightOutTotal').textContent = nightOutTotal.toFixed(2);
+
+        document.getElementById('totalHours').textContent = totalHours.toFixed(2);
+        document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
+        document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
+
+        document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
+        document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
+        document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotal).toFixed(2);
+
+        document.getElementById('week2Hours').textContent = week2Hours.toFixed(2);
+        document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
+        document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotal).toFixed(2);
+
+        document.getElementById('monthlySalary').textContent = totalSalary.toFixed(2);
+        document.getElementById('monthlyTotalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
+        calculateMonthlyTotals();
+    }
+
+    function calculateMonthlyTotals() {
+        const now = new Date(); // Get current date
+        const currentMonth = now.getMonth(); // Months are indexed from 0 (0 = January)
+        const currentYear = now.getFullYear(); // Get current year
+
+        let monthlyHours = 0;
+        let monthlySalary = 0;
+
+        for (let i = 1; i <= 14; i++) {
+            const date = document.getElementById(`date${i}`).value;
+            const hours = parseFloat(document.getElementById(`hours${i}`).textContent) || 0;
+            const salary = parseFloat(document.getElementById(`salary${i}`).textContent) || 0;
+
+            if (date) {
+                const entryDate = new Date(date);
+                if (entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear) {
+                    monthlyHours += hours;
+                    monthlySalary += salary;
+                }
+            }
+        }
+
+        const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
+        const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
+        const nightOutTotal = nightOutDays * nightOutRate;
+
+        // Displaying results in Monthly Summary section
+        document.getElementById('monthlySalary').textContent = monthlySalary.toFixed(2);
+        document.getElementById('monthlyTotalWithNightOut').textContent = (monthlySalary + nightOutTotal).toFixed(2);
+    }
+
+    function saveData() {
+        const data = {};
+        for (let i = 1; i <= 14; i++) {
+            data[`date${i}`] = document.getElementById(`date${i}`).value;
+            data[`start${i}`] = document.getElementById(`start${i}`).value;
+            data[`end${i}`] = document.getElementById(`end${i}`).value;
+            data[`rate${i}`] = document.getElementById(`rate${i}`).value;
+        }
+        data['nightOutDays'] = document.getElementById('nightOutDays').value;
+        data['nightOutRate'] = document.getElementById('nightOutRate').value;
+        localStorage.setItem('workData', JSON.stringify(data));
+        alert('Data saved!');
+    }
+
+    function loadData() {
+        const data = JSON.parse(localStorage.getItem('workData'));
+        if (data) {
             for (let i = 1; i <= 14; i++) {
-                textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent}\n`;
+                document.getElementById(`date${i}`).value = data[`date${i}`] || '';
+                document.getElementById(`start${i}`).value = data[`start${i}`] || '';
+                document.getElementById(`end${i}`).value = data[`end${i}`] || '';
+                document.getElementById(`rate${i}`).value = data[`rate${i}`] || '15.5'; 
             }
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'work_hours_data.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            document.getElementById('nightOutDays').value = data['nightOutDays'] || '0';
+            document.getElementById('nightOutRate').value = data['nightOutRate'] || '28'; 
+            alert('Data loaded!');
+        } else {
+            alert('No data found to load');
         }
+    }
 
-        function toggleInstruction() {
-            const instruction = document.getElementById('instruction');
-            instruction.style.display = instruction.style.display === "none" ? "block" : "none";
+    function downloadData() {
+        let textContent = "Work Hours & Salary Data\n\n";
+        for (let i = 1; i <= 14; i++) {
+            textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent}\n`;
         }
-    </script>
+        const blob = new Blob([textContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'work_hours_data.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+</script>
 </body>
 </html>
