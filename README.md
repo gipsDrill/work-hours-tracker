@@ -33,5 +33,4 @@ Technologies Used
 HTML
 CSS
 JavaScript
-Screenshot
-Screenshot of Work Hours & Salary Tracker  (Replace with an actual screenshot URL)
+
