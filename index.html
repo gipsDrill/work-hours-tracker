@@ -32,13 +32,16 @@
             margin-bottom: 1rem; 
         }
 
-        /* Animation for rotating the phone icon */
+        /* Animation for rotating the phone icon from vertical to horizontal and back */
         @keyframes rotate {
-            from {
+            0% {
                 transform: rotate(0deg);
             }
-            to {
-                transform: rotate(360deg);
+            50% {
+                transform: rotate(90deg);
+            }
+            100% {
+                transform: rotate(0deg);
             }
         }
 
@@ -50,7 +53,7 @@
         .phone-icon {
             width: 60px; /* Icon Width */
             height: 100px; /* Icon Height */
-            animation: rotate 0.5s ease forwards; /* Run the rotation animation on load */
+            animation: rotate 2s linear infinite; /* Continuous rotation */
         }
 
         .table-container {
@@ -293,7 +296,7 @@
 
         <button id="toggleInstruction" onclick="toggleInstruction()">Show/Hide Instructions</button>
 
-        <!-- Animated Mobile Phone Icon -->
+        <!-- Continuously Rotating Mobile Phone Icon -->
         <div class="phone-container">
             <p>For best view on mobile devices, rotate your screen horizontally.</p>
             <svg class="phone-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 40" fill="none" style="color: #376f39;">
