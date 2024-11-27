@@ -484,6 +484,38 @@
 
             document.getElementById('monthlySalary').textContent = totalSalary.toFixed(2);
             document.getElementById('monthlyTotalWithNightOut').textContent = (totalSalary + nightOutTotal).toFixed(2);
+            calculateMonthlyTotals();
+        }
+
+        function calculateMonthlyTotals() {
+            const now = new Date(); // Pobierz aktualną datę
+            const currentMonth = now.getMonth(); // Miesiące są indeksowane od 0 (0 = styczeń)
+            const currentYear = now.getFullYear(); // Pobierz bieżący rok
+
+            let monthlyHours = 0;
+            let monthlySalary = 0;
+
+            for (let i = 1; i <= 14; i++) {
+                const date = document.getElementById(`date${i}`).value;
+                const hours = parseFloat(document.getElementById(`hours${i}`).textContent) || 0;
+                const salary = parseFloat(document.getElementById(`salary${i}`).textContent) || 0;
+
+                if (date) {
+                    const entryDate = new Date(date);
+                    if (entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear) {
+                        monthlyHours += hours;
+                        monthlySalary += salary;
+                    }
+                }
+            }
+
+            const nightOutDays = parseInt(document.getElementById('nightOutDays').value) || 0;
+            const nightOutRate = parseFloat(document.getElementById('nightOutRate').value) || 28;
+            const nightOutTotal = nightOutDays * nightOutRate;
+
+            // Wyświetlanie wyników w sekcji Monthly Summary
+            document.getElementById('monthlySalary').textContent = monthlySalary.toFixed(2);
+            document.getElementById('monthlyTotalWithNightOut').textContent = (monthlySalary + nightOutTotal).toFixed(2);
         }
 
         function saveData() {
