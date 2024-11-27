@@ -285,14 +285,48 @@
 
         <!-- Instructions Section -->
         <div id="instruction">
-            <h3>Instructions</h3>
-            <p><strong>1. Enter your work hours:</strong> Fill in the start and end times for each day, excluding the 45-minute break.</p>
-            <p><strong>2. Set your hourly rate:</strong> Enter your hourly rate for each day. The rate will automatically set to £17.5 for weekends (Saturday and Sunday).</p>
-            <p><strong>3. Calculate Total Hours and Salary:</strong> Click the "Calculate All" button to calculate your total hours and salary.</p>
-            <p><strong>4. Night Out:</strong> You can enter the number of "Night Out" days and the rate per night to calculate your additional earnings.</p>
-            <p><strong>5. Save and Load Data:</strong> You can save your data locally in your browser or load previously saved data to resume working.</p>
-            <p><strong>6. Download Data:</strong> You can download your data as a .txt file to keep a record of your hours and salary.</p>
-        </div>
+    <h3>Instrukcja Obsługi</h3>
+    <p><strong>1. Wprowadzanie danych o godzinach pracy:</strong></p>
+    <p>Wypełnij formularz, aby dodać godziny pracy na każdy dzień:</p>
+    <ul>
+        <li>Wybierz dzień tygodnia – dni są już wstępnie wypełnione (np. Poniedziałek, Wtorek itd.).</li>
+        <li>Wprowadź datę pracy w odpowiedniej kolumnie „Date” (format: dzień-miesiąc-rok).</li>
+        <li>Wprowadź godzinę rozpoczęcia pracy w polu „Start Time” oraz godzinę zakończenia pracy w polu „End Time”.</li>
+        <li>Po wprowadzeniu godzin, program automatycznie obliczy ilość przepracowanych godzin i wynagrodzenie na podstawie stawki godzinowej.</li>
+    </ul>
+    
+    <p><strong>2. Ustawienie stawki godzinowej:</strong></p>
+    <p>Stawka godzinowa jest domyślnie ustawiona na 15,5 GBP na dzień roboczy. Dla weekendów (sobota i niedziela), stawka godzinowa jest automatycznie ustawiana na 17,5 GBP. Możesz zmieniać stawkę godzinową ręcznie, jeśli Twoja stawka jest inna niż domyślna.</p>
+
+    <p><strong>3. Obliczanie godzin pracy i wynagrodzenia:</strong></p>
+    <p>Po wprowadzeniu wszystkich danych (godzin rozpoczęcia, zakończenia i stawki), kliknij przycisk <strong>"Calculate All"</strong>, aby obliczyć:</p>
+    <ul>
+        <li><strong>Łączną liczbę godzin</strong> pracy dla całego okresu (14 dni).</li>
+        <li><strong>Łączne wynagrodzenie</strong> na podstawie wprowadzonych danych (ilość godzin * stawka godzinowa).</li>
+    </ul>
+
+    <p><strong>4. Dodatkowe wynagrodzenie za "Night Out" (Nocny Dyżur):</strong></p>
+    <p>Jeśli masz dni pracy jako "Night Out", wprowadź liczbę takich dni w polu „Number of Nights” oraz stawkę za każdą noc (domyślnie 28 GBP). Program obliczy dodatkowe wynagrodzenie i doda je do Twojego łącznego wynagrodzenia.</p>
+
+    <p><strong>5. Zapisanie danych:</strong></p>
+    <p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarce (bez potrzeby logowania się czy rejestracji).</p>
+    <ul>
+        <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarce, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
+        <li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarki (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
+    </ul>
+
+    <p><strong>6. Ładowanie zapisanych danych:</strong></p>
+    <p>Jeśli chcesz wczytać dane, które wcześniej zapisałeś, kliknij przycisk <strong>"Load Data"</strong>. Program załaduje zapisane dane z Twojej przeglądarki i uzupełni formularz o te informacje.</p>
+    <ul>
+        <li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
+    </ul>
+
+    <p><strong>7. Pobieranie danych jako plik:</strong></p>
+    <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong>. Spowoduje to utworzenie pliku tekstowego (.txt), który będzie zawierał wszystkie wprowadzone dane o godzinach pracy, stawkach i wynagrodzeniu. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
+
+    <p><strong>8. Instrukcja użytkowania:</strong></p>
+    <p>Aby uzyskać szczegółową instrukcję obsługi, kliknij przycisk <strong>"Show/Hide Instructions"</strong> na dole strony. Instrukcja zostanie rozwinięta lub zwinięta, w zależności od tego, czy chcesz ją przeczytać.</p>
+</div>
 
         <button id="toggleInstruction" onclick="toggleInstruction()">Show/Hide Instructions</button>
 
