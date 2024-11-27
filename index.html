@@ -32,7 +32,6 @@
             margin-bottom: 1rem; 
         }
 
-        /* Animation for rotating the phone icon from vertical to horizontal and back */
         @keyframes rotate {
             0% {
                 transform: rotate(0deg);
@@ -51,9 +50,9 @@
         }
 
         .phone-icon {
-            width: 60px; /* Icon Width */
-            height: 100px; /* Icon Height */
-            animation: rotate 3s linear infinite; /* Continuous rotation */
+            width: 60px;
+            height: 100px;
+            animation: rotate 3s linear infinite;
         }
 
         .table-container {
@@ -205,6 +204,11 @@
             height: auto;
             margin-right: 5px; /* Spacing between image and text */
         }
+
+        .small-text {
+            font-size: smaller;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -229,10 +233,16 @@
                         const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
                         for (let i = 1; i <= 14; i++) {
                             const dayName = days[(i - 1) % 7];
+                            const weekText = (i <= 7) ? "Week 1" : "Week 2"; // Determine the week
                             const rate = (dayName === "Sat" || dayName === "Sun") ? "17.5" : "15.5";
                             document.write(`
                                 <tr>
-                                    <td><input type="text" value="${dayName}" readonly></td>
+                                    <td>
+                                        <div>
+                                            <span>${dayName}</span><br>
+                                            <span class="small-text">${weekText}</span> <!-- Week indicator in small font -->
+                                        </div>
+                                    </td>
                                     <td><input type="date" id="date${i}" aria-label="Date for ${dayName}"></td>
                                     <td><input type="time" id="start${i}" aria-label="Start time for ${dayName}"></td>
                                     <td><input type="time" id="end${i}" aria-label="End time for ${dayName}"></td>
@@ -301,7 +311,7 @@
             <h3>Weekly Summary</h3>
             <p><strong>Week 1: </strong>Total Hours: <span id="week1Hours">0</span>, Total Salary: £<span id="week1Salary">0</span>, Total including Night Out: £<span id="week1TotalWithNightOut">0</span></p>
             <p><strong>Week 2: </strong>Total Hours: <span id="week2Hours">0</span>, Total Salary: £<span id="week2Salary">0</span>, Total including Night Out: £<span id="week2TotalWithNightOut">0</span></p>
-            <p><strong>Total Salary including Nights Out for Week 1 & Week 2: </strong>£<span id="totalSalaryCombined">0</span></p> <!-- Combined total -->
+            <p><strong>Total Salary including Nights Out for Week 1 & Week 2: </strong>£<span id="totalSalaryCombined">0</span></p>
         </div>
 
         <div class="monthly-summary">
@@ -612,15 +622,15 @@
 
             // Calculate the combined salary for both weeks including nights out
             const totalCombined = week1Salary + nightOutTotalWeek1 + week2Salary + nightOutTotalWeek2;
-            document.getElementById('totalSalaryCombined').textContent = totalCombined.toFixed(2); // New combined total
+            document.getElementById('totalSalaryCombined').textContent = totalCombined.toFixed(2);
             
             calculateMonthlyTotals();
         }
 
         function calculateMonthlyTotals() {
-            const now = new Date(); // Get current date
-            const currentMonth = now.getMonth(); // Months are indexed from 0 (0 = January)
-            const currentYear = now.getFullYear(); // Get current year
+            const now = new Date(); 
+            const currentMonth = now.getMonth(); 
+            const currentYear = now.getFullYear(); 
 
             let monthlyHours = 0;
             let monthlySalary = 0;
@@ -644,17 +654,14 @@
             const nightOutRateWeek1 = parseFloat(document.getElementById('nightOutRateWeek1').value) || 28;
             const nightOutRateWeek2 = parseFloat(document.getElementById('nightOutRateWeek2').value) || 28;
 
-            // Calculate total night out pay for the current month if any of the nights were in the current month
             const totalNightOutPayWeek1 = nightOutDaysWeek1 * nightOutRateWeek1;
             const totalNightOutPayWeek2 = nightOutDaysWeek2 * nightOutRateWeek2;
             const totalNightOutPay = totalNightOutPayWeek1 + totalNightOutPayWeek2;
 
-            // Displaying results in Monthly Summary section
             document.getElementById('monthlySalary').textContent = monthlySalary.toFixed(2);
             document.getElementById('monthlyTotalWithNightOut').textContent = (monthlySalary + totalNightOutPay).toFixed(2);
         }
 
-        // Initialize current month on page load
         window.onload = initCurrentMonth;
 
         function saveData() {
@@ -684,7 +691,7 @@
                     document.getElementById(`rate${i}`).value = data[`rate${i}`] || '15.5'; 
                     document.getElementById(`nightOut${i}`).checked = data[`nightOut${i}`] || false; 
                 }
-                updateNightOutCount(); // Update night out count after loading data
+                updateNightOutCount(); 
                 alert('Data loaded!');
             } else {
                 alert('No data found to load');
@@ -692,27 +699,26 @@
         }
 
         function downloadData() {
-    let textContent = "Work Hours & Salary Data\n\n";
-    for (let i = 1; i <= 14; i++) {
-        textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent} | Night Out: ${document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No'}\n`;
-    }
+            let textContent = "Work Hours & Salary Data\n\n";
+            for (let i = 1; i <= 14; i++) {
+                textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent} | Night Out: ${document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No'}\n`;
+            }
 
-    // Include totals at the end of the file
-    textContent += "\nTotal Hours Worked: " + document.getElementById('totalHours').textContent + " hours\n";
-    textContent += "Total Salary: £" + document.getElementById('totalSalary').textContent + "\n";
-    textContent += "Total Salary including Night Out: £" + document.getElementById('totalWithNightOut').textContent + "\n";
-    textContent += "Total Salary including Nights Out for Week 1 & Week 2: £" + document.getElementById('totalSalaryCombined').textContent + "\n";
+            textContent += "\nTotal Hours Worked: " + document.getElementById('totalHours').textContent + " hours\n";
+            textContent += "Total Salary: £" + document.getElementById('totalSalary').textContent + "\n";
+            textContent += "Total Salary including Night Out: £" + document.getElementById('totalWithNightOut').textContent + "\n";
+            textContent += "Total Salary including Nights Out for Week 1 & Week 2: £" + document.getElementById('totalSalaryCombined').textContent + "\n";
 
-    const blob = new Blob([textContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'work_hours_data.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'work_hours_data.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
     </script>
 </body>
 </html>
