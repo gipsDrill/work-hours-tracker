@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('https://i.ibb.co/CWDyr4b/muzyka-cd8f6a613c1d.jpg') no-repeat center center fixed; 
+            background: url('https://i.ibb.co/CWDyr4b/muzyka-cd8f6a613c1d.jpg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             color: #333;
@@ -28,8 +28,8 @@
 
         h1 {
             color: #376f39;
-            font-size: 2rem; 
-            margin-bottom: 1rem; 
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
 
         @keyframes rotate {
@@ -80,7 +80,7 @@
 
         input[type="text"], input[type="date"], input[type="time"], input[type="number"] {
             width: 100%;
-            padding: 0.5rem; 
+            padding: 0.5rem;
             box-sizing: border-box;
             margin: 0.5rem 0;
         }
@@ -91,7 +91,7 @@
             border: none;
             border-radius: 5px;
             padding: 0.6rem 1.2rem;
-            margin: 0.5rem; 
+            margin: 0.5rem;
             cursor: pointer;
         }
 
@@ -100,36 +100,37 @@
         }
 
         .summary, .weekly-summary, .monthly-summary {
-            margin-top: 2rem; 
-            font-size: 1em; 
+            margin-top: 2rem;
+            font-size: 1em;
             text-align: left;
             width: 100%;
             max-width: 600px;
-            background-color: #f9f9f9; 
-            padding: 1rem; 
-            border-radius: 5px; 
-            border: 1px solid #ddd; 
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
 
         .night-out-table {
             background: rgba(255, 248, 225, 0.8);
-            padding: 1rem; 
+            padding: 1rem;
             border-radius: 5px;
-            margin-top: 2rem; 
-            width: 100%;
-            max-width: 400px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            width: 80%; /* Adjusted smaller width */
+            max-width: 312px; /* Set maximum width for smaller tables */
         }
 
         .orientation-note {
             margin-top: 1rem;
             padding: 1rem;
             background-color: white;
-            border: 1px solid #ddd; 
+            border: 1px solid #ddd;
             border-radius: 5px;
             width: 100%;
             max-width: 400px;
             margin: 1rem auto;
-            color: #555; 
+            color: #555;
             text-align: center;
         }
 
@@ -142,38 +143,38 @@
         .instruction {
             display: none;
             background-color: rgba(255, 248, 225, 0.8);
-            padding: 1rem; 
+            padding: 1rem;
             border-radius: 5px;
-            margin-top: 2rem; 
+            margin-top: 2rem;
             font-size: 1em;
             width: 100%;
             max-width: 600px;
             text-align: left;
         }
 
-        #toggleInstructionEnglish, 
+        #toggleInstructionEnglish,
         #toggleInstructionPolish {
             background-color: #28a745;
             color: white;
-            padding: 0.7rem 1rem; 
+            padding: 0.7rem 1rem;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 0.5rem; 
+            margin-top: 0.5rem;
         }
 
-        #toggleInstructionEnglish:hover, 
+        #toggleInstructionEnglish:hover,
         #toggleInstructionPolish:hover {
             background-color: #218838;
         }
 
         @media (max-width: 600px) {
             h1 {
-                font-size: 1.5rem; 
+                font-size: 1.5rem;
             }
 
             table, th, td {
-                font-size: 0.9rem; 
+                font-size: 0.9rem;
             }
 
             button {
@@ -182,11 +183,11 @@
             }
 
             .summary, .night-out-table {
-                font-size: 0.9rem; 
+                font-size: 0.9rem;
             }
 
             .orientation-note {
-                font-size: 0.8rem; 
+                font-size: 0.8rem;
             }
         }
 
@@ -348,7 +349,7 @@
             <p><strong>5. Zapisanie danych:</strong></p>
             <p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarki (bez potrzeby logowania się czy rejestracji).</p>
             <ul>
-                <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarce, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
+                <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarki, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
                 <li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarki (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
             </ul>
             <p><strong>6. Ładowanie zapisanych danych:</strong></p>
@@ -623,14 +624,14 @@
             // Calculate the combined salary for both weeks including nights out
             const totalCombined = week1Salary + nightOutTotalWeek1 + week2Salary + nightOutTotalWeek2;
             document.getElementById('totalSalaryCombined').textContent = totalCombined.toFixed(2);
-            
+
             calculateMonthlyTotals();
         }
 
         function calculateMonthlyTotals() {
-            const now = new Date(); 
-            const currentMonth = now.getMonth(); 
-            const currentYear = now.getFullYear(); 
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
 
             let monthlyHours = 0;
             let monthlySalary = 0;
@@ -688,10 +689,10 @@
                     document.getElementById(`date${i}`).value = data[`date${i}`] || '';
                     document.getElementById(`start${i}`).value = data[`start${i}`] || '';
                     document.getElementById(`end${i}`).value = data[`end${i}`] || '';
-                    document.getElementById(`rate${i}`).value = data[`rate${i}`] || '15.5'; 
-                    document.getElementById(`nightOut${i}`).checked = data[`nightOut${i}`] || false; 
+                    document.getElementById(`rate${i}`).value = data[`rate${i}`] || '15.5';
+                    document.getElementById(`nightOut${i}`).checked = data[`nightOut${i}`] || false;
                 }
-                updateNightOutCount(); 
+                updateNightOutCount();
                 alert('Data loaded!');
             } else {
                 alert('No data found to load');
