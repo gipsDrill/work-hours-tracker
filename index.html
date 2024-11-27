@@ -692,20 +692,27 @@
         }
 
         function downloadData() {
-            let textContent = "Work Hours & Salary Data\n\n";
-            for (let i = 1; i <= 14; i++) {
-                textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent} | Night Out: ${document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No'}\n`;
-            }
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'work_hours_data.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
+    let textContent = "Work Hours & Salary Data\n\n";
+    for (let i = 1; i <= 14; i++) {
+        textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent} | Night Out: ${document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No'}\n`;
+    }
+
+    // Include totals at the end of the file
+    textContent += "\nTotal Hours Worked: " + document.getElementById('totalHours').textContent + " hours\n";
+    textContent += "Total Salary: £" + document.getElementById('totalSalary').textContent + "\n";
+    textContent += "Total Salary including Night Out: £" + document.getElementById('totalWithNightOut').textContent + "\n";
+    textContent += "Total Salary including Nights Out for Week 1 & Week 2: £" + document.getElementById('totalSalaryCombined').textContent + "\n";
+
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'work_hours_data.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
     </script>
 </body>
 </html>
