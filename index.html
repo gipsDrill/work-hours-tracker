@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Work Hours &amp; Salary Tracker</title>
     <style>
         body {
@@ -36,9 +37,11 @@
             0% {
                 transform: rotate(0deg);
             }
+
             50% {
                 transform: rotate(90deg);
             }
+
             100% {
                 transform: rotate(0deg);
             }
@@ -52,7 +55,7 @@
         .phone-icon {
             width: 60px;
             height: 100px;
-            animation: rotate 3s linear infinite;
+            animation: rotate 4s linear infinite;
         }
 
         .table-container {
@@ -66,8 +69,9 @@
             margin-top: 1rem;
         }
 
-        th, td {
-            border: 2px solid #d2d2d2;
+        th,
+        td {
+            border: 1px solid #d2d2d2;
             padding: 0.75rem;
             text-align: center;
             background-color: white;
@@ -78,7 +82,10 @@
             color: white;
         }
 
-        input[type="text"], input[type="date"], input[type="time"], input[type="number"] {
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"] {
             width: 100%;
             padding: 0.5rem;
             box-sizing: border-box;
@@ -86,10 +93,10 @@
         }
 
         button {
-            background-color: #0064D7;
+            background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             padding: 0.6rem 1.2rem;
             margin: 0.5rem;
             cursor: pointer;
@@ -99,7 +106,9 @@
             background-color: #0050af;
         }
 
-        .summary, .weekly-summary, .monthly-summary {
+        .summary,
+        .weekly-summary,
+        .monthly-summary {
             margin-top: 2rem;
             font-size: 1em;
             text-align: left;
@@ -117,8 +126,10 @@
             border-radius: 6px;
             margin-top: 1.5rem;
             font-size: 0.7rem;
-            width: 80%; /* Adjusted smaller width */
-            max-width: 315px; /* Set maximum width for smaller tables */
+            width: 80%;
+            /* Adjusted smaller width */
+            max-width: 315px;
+            /* Set maximum width for smaller tables */
         }
 
         .orientation-note {
@@ -137,7 +148,8 @@
         .error {
             color: red;
             font-weight: bold;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
         }
 
         .instruction {
@@ -173,7 +185,9 @@
                 font-size: 1.4rem;
             }
 
-            table, th, td {
+            table,
+            th,
+            td {
                 font-size: 0.8rem;
             }
 
@@ -182,7 +196,8 @@
                 font-size: 0.8rem;
             }
 
-            .summary, .night-out-table {
+            .summary,
+            .night-out-table {
                 font-size: 0.8rem;
             }
 
@@ -201,7 +216,7 @@
         }
 
         .footer img {
-            width: 38px; /* Smaller image size */
+            width: 40px; /* Smaller image size */
             height: auto;
             margin-right: 5px; /* Spacing between image and text */
         }
@@ -211,7 +226,9 @@
             color: #666;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <h1>Work Hours &amp; Salary Tracker</h1>
@@ -231,11 +248,11 @@
                 </thead>
                 <tbody id="workTable">
                     <script>
-                        const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+                        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
                         for (let i = 1; i <= 14; i++) {
                             const dayName = days[(i - 1) % 7];
                             const weekText = (i <= 7) ? "Week 1" : "Week 2"; // Determine the week
-                            const rate = (dayName === "Sat" || dayName === "Sun") ? "17.5" : "15.5";
+                            const rate = (days[(i - 1) % 7] === "Saturday" || days[(i - 1) % 7] === "Sunday") ? "17.5" : "15.5";
                             document.write(`
                                 <tr>
                                     <td>
@@ -258,9 +275,9 @@
                 </tbody>
             </table>
         </div>
-    
+
         <div class="night-out-table">
-            <h1>Night Out</h1>
+            <h3>Night Out</h3>
             <table>
                 <thead>
                     <tr>
@@ -272,7 +289,7 @@
                 <tbody>
                     <tr>
                         <td><span id="nightOutDaysWeek1">0</span></td>
-                        <td><input aria-label="Rate per Night Week 1" id="nightOutRateWeek1" step="0.01" type="number" value="28"/></td>
+                        <td><input aria-label="Rate per Night Week 1" id="nightOutRateWeek1" step="0.01" type="number" value="28" /></td>
                         <td id="nightOutTotalWeek1">0</td>
                     </tr>
                 </tbody>
@@ -288,7 +305,7 @@
                 <tbody>
                     <tr>
                         <td><span id="nightOutDaysWeek2">0</span></td>
-                        <td><input aria-label="Rate per Night Week 2" id="nightOutRateWeek2" step="0.01" type="number" value="28"/></td>
+                        <td><input aria-label="Rate per Night Week 2" id="nightOutRateWeek2" step="0.01" type="number" value="28" /></td>
                         <td id="nightOutTotalWeek2">0</td>
                     </tr>
                 </tbody>
@@ -300,6 +317,7 @@
             <button onclick="saveData()">Save Data</button>
             <button onclick="loadData()">Load Data</button>
             <button onclick="downloadData()">Download Data (TXT)</button>
+            <button onclick="downloadExcel()">Download Data (Excel)</button> <!-- Przycisk do pobrania Excel -->
         </div>
 
         <div class="summary">
@@ -317,12 +335,12 @@
 
         <div class="monthly-summary">
             <h3>Monthly Summary</h3>
-            <p><strong>Total Salary for the Month of <span id="currentMonth"></span>: </strong>£<span id="monthlySalary">0</span>, Total including Night Out: £<span id="monthlyTotalWithNightOut">0</span></p>
+            <p><strong>Total Salary for the Current Month of <span id="currentMonth"></span>: </strong>£<span id="monthlySalary">0</span></p>
+            <p><strong>Total Salary for the Previous Month: </strong>£<span id="previousMonthlySalary">0</span></p>
+            <p><strong>Total including Night Out for the Current Month: </strong>£<span id="monthlyTotalWithNightOut">0</span></p>
         </div>
 
         <div class="error" id="errorMessages"></div>
-
-      
 
         <!-- Instructions Section -->
         <button id="toggleInstructionPolish" onclick="toggleInstructionLanguage('polish')">Show/Hide Polish Instructions</button>
@@ -349,10 +367,10 @@
             <p><strong>4. Dodatkowe wynagrodzenie za "Night Out":</strong></p>
             <p>Jeśli masz dni pracy jako "Night Out", zaznacz pole wyboru dla każdego z tych dni w tabeli. Program automatycznie zliczy wszystkie zaznaczone dni i obliczy dodatkowe wynagrodzenie na podstawie stawki za każdą noc. Zobaczysz podsumowanie dla obu tygodni: łączną liczbę nights oraz wynagrodzenie w sekcji „Podsumowanie tygodnia”.</p>
             <p><strong>5. Zapisanie danych:</strong></p>
-            <p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarce (bez potrzeby logowania się czy rejestracji).</p>
+            <p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarki (bez potrzeby logowania się czy rejestracji).</p>
             <ul>
-                <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarce, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
-                <li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarce (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
+                <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarki, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
+                <li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarki (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
             </ul>
             <p><strong>6. Ładowanie zapisanych danych:</strong></p>
             <p>Jeśli chcesz wczytać dane, które wcześniej zapisałeś, kliknij przycisk <strong>"Load Data"</strong> i następnie <strong>"Calculate All"</strong>. Program załaduje zapisane dane z Twojej przeglądarki i uzupełni formularz o te informacje.</p>
@@ -360,7 +378,7 @@
                 <li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
             </ul>
             <p><strong>7. Pobieranie danych jako plik:</strong></p>
-            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong>. Spowoduje to utworzenie pliku tekstowego (.txt), który będzie zawierał wszystkie wprowadzone dane o godzinach pracy, stawkach i wynagrodzeniu. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
+            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong> dla zwykłego pliku tekstowego lub <strong>"Download Data (Excel)"</strong> dla pliku zgodnego z Excel. Spowoduje to utworzenie pliku do pobrania, tekstowego (.txt) lub arkusz kalkulacyjny  (.xlsx), który będzie zawierał wszystkie wprowadzone dane. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
             <p><strong>8. Dodanie ikony szybkiego dostępu na pulpit:</strong></p>
             <p>Jeśli chcesz szybko otwierać narzędzie bezpośrednio z ekranu głównego telefonu, wykonaj poniższe kroki:</p>
             <ul>
@@ -439,12 +457,12 @@
         </div>
 
         <!-- Continuously Rotating Mobile Phone Icon -->
-            <div class="note">
+        <div class="note">
             Note: Saved data can be loaded on the same device.
-            </div>
+        </div>
 
-            <div class="phone-container">
-            <p>For better view main table on mobile devices, rotate your screen horizontally..</p>
+        <div class="phone-container">
+            <p>For best view on mobile devices, rotate your screen horizontally.</p>
             <svg class="phone-icon" fill="none" style="color: #376f39;" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg">
                 <rect fill="none" height="38" rx="2" ry="2" stroke="currentColor" stroke-width="2" width="18" x="3" y="1"></rect>
                 <rect fill="currentColor" height="2" width="8" x="8" y="33"></rect>
@@ -631,10 +649,14 @@
             const totalCombined = week1Salary + nightOutTotalWeek1 + week2Salary + nightOutTotalWeek2;
             document.getElementById('totalSalaryCombined').textContent = totalCombined.toFixed(2);
 
-            calculateMonthlyTotals();
+            // Store and calculate monthly totals
+            calculateMonthlyTotals(totalSalary);
+
+            // Keep track of previous month's salary
+            storePreviousMonthSalary();
         }
 
-        function calculateMonthlyTotals() {
+        function calculateMonthlyTotals(currentTotalSalary) {
             const now = new Date();
             const currentMonth = now.getMonth();
             const currentYear = now.getFullYear();
@@ -669,7 +691,27 @@
             document.getElementById('monthlyTotalWithNightOut').textContent = (monthlySalary + totalNightOutPay).toFixed(2);
         }
 
-        window.onload = initCurrentMonth;
+        function storePreviousMonthSalary() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+
+            // Previous month calculation
+            const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+            const previousMonthYear = previousMonth === 11 ? currentYear - 1 : currentYear;
+
+            // Retrieve previous month's total from localStorage
+            const previousMonthlySalary = localStorage.getItem('previousMonthlySalary') || 0;
+            document.getElementById('previousMonthlySalary').textContent = previousMonthlySalary;
+
+            // Store the current month's total salary as the previous month's salary for next month
+            localStorage.setItem('previousMonthlySalary', document.getElementById('totalSalary').textContent);
+        }
+
+        window.onload = function () {
+            initCurrentMonth();
+            storePreviousMonthSalary(); // Store previous month salary on load
+        };
 
         function saveData() {
             const data = {};
@@ -726,6 +768,44 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
+
+        function downloadExcel() {
+            const workbook = XLSX.utils.book_new();
+            const wsData = [['Day', 'Date', 'Start Time', 'End Time', 'Hours Worked', 'Hourly Rate', 'Salary', 'Night Out']];
+
+            const fullDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]; // Full day names
+            for (let i = 1; i <= 14; i++) {
+                const dayIndex = (i - 1) % 7; // Calculate full day index
+                const dayName = fullDays[dayIndex]; // Get full day name
+                const date = document.getElementById(`date${i}`).value;
+                const start = document.getElementById(`start${i}`).value;
+                const end = document.getElementById(`end${i}`).value;
+                const hoursWorked = document.getElementById(`hours${i}`).textContent;
+                const hourlyRate = document.getElementById(`rate${i}`).value;
+                const salary = document.getElementById(`salary${i}`).textContent;
+                const nightOut = document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No';
+
+                wsData.push([dayName, date, start, end, hoursWorked, hourlyRate, salary, nightOut]);
+            }
+
+            // Adding totals
+            const totalHours = document.getElementById('totalHours').textContent;
+            const totalSalary = document.getElementById('totalSalary').textContent;
+            const totalSalaryIncludingNightOut = document.getElementById('totalWithNightOut').textContent;
+            const totalSalaryCombined = document.getElementById('totalSalaryCombined').textContent;
+
+            wsData.push(['', '', '', '', '', 'Total Hours:', totalHours, '']);
+            wsData.push(['', '', '', '', '', 'Total Salary:', totalSalary, '']);
+            wsData.push(['', '', '', '', '', 'Total Salary including Night Out:', totalSalaryIncludingNightOut, '']);
+            wsData.push(['', '', '', '', '', 'Total including Night Out Week 1:', document.getElementById('week1TotalWithNightOut').textContent, '']);
+            wsData.push(['', '', '', '', '', 'Total including Night Out Week 2:', document.getElementById('week2TotalWithNightOut').textContent, '']);
+            wsData.push(['', '', '', '', '', 'Total Salary including Nights Out for Week 1 & Week 2:', totalSalaryCombined, '']);
+
+            const worksheet = XLSX.utils.aoa_to_sheet(wsData);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Work Hours");
+            XLSX.writeFile(workbook, "Work_Hours_Data.xlsx"); // Ustalamy nazwę pliku
+        }
     </script>
 </body>
+
 </html>
