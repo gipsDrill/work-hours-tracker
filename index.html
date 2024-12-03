@@ -212,13 +212,16 @@
             align-items: center;
             justify-content: center;
             margin-top: 2rem;
-            font-size: 0.7rem; /* Small font size */
+            font-size: 0.7rem;
+            /* Small font size */
         }
 
         .footer img {
-            width: 40px; /* Smaller image size */
+            width: 40px;
+            /* Smaller image size */
             height: auto;
-            margin-right: 5px; /* Spacing between image and text */
+            margin-right: 5px;
+            /* Spacing between image and text */
         }
 
         .small-text {
@@ -328,8 +331,8 @@
 
         <div class="weekly-summary">
             <h3>Weekly Summary</h3>
-            <p><strong>Week 1: </strong>Total Hours: <span id="week1Hours">0</span>, Total Salary: £<span id="week1Salary">0</span>, Total including Night Out: £<span id="week1TotalWithNightOut">0</span></p>
-            <p><strong>Week 2: </strong>Total Hours: <span id="week2Hours">0</span>, Total Salary: £<span id="week2Salary">0</span>, Total including Night Out: £<span id="week2TotalWithNightOut">0</span></p>
+            <p><strong>Week 1: </strong>Total Hours: <span id="week1Hours">0</span>, Total Salary: £<span id="week1Salary">0</span>, Total Night Out Pay: £<span id="nightOutTotalWeek1Display">0</span>, Total including Night Out: £<span id="week1TotalWithNightOut">0</span></p>
+            <p><strong>Week 2: </strong>Total Hours: <span id="week2Hours">0</span>, Total Salary: £<span id="week2Salary">0</span>, Total Night Out Pay: £<span id="nightOutTotalWeek2Display">0</span>, Total including Night Out: £<span id="week2TotalWithNightOut">0</span></p>
             <p><strong>Total Salary including Nights Out for Week 1 & Week 2: </strong>£<span id="totalSalaryCombined">0</span></p>
         </div>
 
@@ -378,7 +381,7 @@
                 <li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
             </ul>
             <p><strong>7. Pobieranie danych jako plik:</strong></p>
-            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong> dla zwykłego pliku tekstowego lub <strong>"Download Data (Excel)"</strong> dla pliku zgodnego z Excel. Spowoduje to utworzenie pliku do pobrania, tekstowego (.txt) lub arkusz kalkulacyjny  (.xlsx), który będzie zawierał wszystkie wprowadzone dane. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
+            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong> lub <strong>"Download Data (Excel)"</strong>. Spowoduje to utworzenie pliku do pobrania na urządzenie, który będzie zawierał wszystkie wprowadzone dane o godzinach pracy, stawkach i wynagrodzeniu itd. Możesz ten plik zapisać na swoim komputerze/telefonie, aby mieć kopię swoich danych w formie pliku.</p>
             <p><strong>8. Dodanie ikony szybkiego dostępu na pulpit:</strong></p>
             <p>Jeśli chcesz szybko otwierać narzędzie bezpośrednio z ekranu głównego telefonu, wykonaj poniższe kroki:</p>
             <ul>
@@ -640,10 +643,12 @@
             document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
             document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
             document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotalWeek1).toFixed(2);
+            document.getElementById('nightOutTotalWeek1Display').textContent = nightOutTotalWeek1.toFixed(2); // Display in Weekly Summary
 
             document.getElementById('week2Hours').textContent = week2Hours.toFixed(2);
             document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
             document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotalWeek2).toFixed(2);
+            document.getElementById('nightOutTotalWeek2Display').textContent = nightOutTotalWeek2.toFixed(2); // Display in Weekly Summary
 
             // Calculate the combined salary for both weeks including nights out
             const totalCombined = week1Salary + nightOutTotalWeek1 + week2Salary + nightOutTotalWeek2;
@@ -757,6 +762,8 @@
             textContent += "Total Salary: £" + document.getElementById('totalSalary').textContent + "\n";
             textContent += "Total Salary including Night Out: £" + document.getElementById('totalWithNightOut').textContent + "\n";
             textContent += "Total Salary including Nights Out for Week 1 & Week 2: £" + document.getElementById('totalSalaryCombined').textContent + "\n";
+            textContent += "Total Night Out Pay Week 1: £" + document.getElementById('nightOutTotalWeek1').textContent + "\n";
+            textContent += "Total Night Out Pay Week 2: £" + document.getElementById('nightOutTotalWeek2').textContent + "\n";
 
             const blob = new Blob([textContent], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
@@ -793,12 +800,14 @@
             const totalSalary = document.getElementById('totalSalary').textContent;
             const totalSalaryIncludingNightOut = document.getElementById('totalWithNightOut').textContent;
             const totalSalaryCombined = document.getElementById('totalSalaryCombined').textContent;
+            const totalNightOutPayWeek1 = document.getElementById('nightOutTotalWeek1').textContent;
+            const totalNightOutPayWeek2 = document.getElementById('nightOutTotalWeek2').textContent;
 
             wsData.push(['', '', '', '', '', 'Total Hours:', totalHours, '']);
             wsData.push(['', '', '', '', '', 'Total Salary:', totalSalary, '']);
             wsData.push(['', '', '', '', '', 'Total Salary including Night Out:', totalSalaryIncludingNightOut, '']);
-            wsData.push(['', '', '', '', '', 'Total including Night Out Week 1:', document.getElementById('week1TotalWithNightOut').textContent, '']);
-            wsData.push(['', '', '', '', '', 'Total including Night Out Week 2:', document.getElementById('week2TotalWithNightOut').textContent, '']);
+            wsData.push(['', '', '', '', '', 'Total Night Out Pay Week 1:', totalNightOutPayWeek1, '']);
+            wsData.push(['', '', '', '', '', 'Total Night Out Pay Week 2:', totalNightOutPayWeek2, '']);
             wsData.push(['', '', '', '', '', 'Total Salary including Nights Out for Week 1 & Week 2:', totalSalaryCombined, '']);
 
             const worksheet = XLSX.utils.aoa_to_sheet(wsData);
