@@ -125,15 +125,77 @@
             border: 1px solid #ddd;
         }
 
-        .night-out-table {
-            background: rgba(255, 248, 245, 0.7);
-            padding: 0.6rem;
-            border-radius: 6px;
-            margin-top: 1.4rem;
-            font-size: 0.8rem;
-            width: 90%;
-            max-width: 380px;
-        }
+        .additional-earnings {
+    background: rgba(255, 248, 240, 0.8);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1.5rem;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.additional-earnings table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.additional-earnings th,
+.additional-earnings td {
+    border: 1px solid #d2d2d2;
+    padding: 0.5rem;
+    text-align: center;
+    background-color: white;
+}
+
+.additional-earnings th {
+    background-color: #376f39;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.additional-earnings select,
+.additional-earnings input {
+    width: 80%;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.symmetric-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.8rem;
+    table-layout: fixed; /* Ensures equal column widths */
+}
+
+.symmetric-table th,
+.symmetric-table td {
+    border: 1px solid #d2d2d2;
+    padding: 0.6rem;
+    text-align: center;
+    background-color: white;
+    width: 50%; /* Ensures equal width for both columns */
+}
+
+.symmetric-table th {
+    background-color: #376f39;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.symmetric-table select,
+.symmetric-table input {
+    width: 80%;
+    padding: 0.4rem;
+    font-size: 0.8rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
 
         .orientation-note {
             margin-top: 1rem;
@@ -278,41 +340,71 @@
             </table>
         </div>
 
-        <div class="night-out-table">
-            <h3>Night Out</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Number of Nights Week 1</th>
-                        <th>Rate per Night</th>
-                        <th>Total Night Out Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span id="nightOutDaysWeek1">0</span></td>
-                        <td><input aria-label="Rate per Night Week 1" id="nightOutRateWeek1" step="0.01" type="number" value="28" /></td>
-                        <td id="nightOutTotalWeek1">0</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Number of Nights Week 2</th>
-                        <th>Rate per Night</th>
-                        <th>Total Night Out Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span id="nightOutDaysWeek2">0</span></td>
-                        <td><input aria-label="Rate per Night Week 2" id="nightOutRateWeek2" step="0.01" type="number" value="28" /></td>
-                        <td id="nightOutTotalWeek2">0</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="additional-earnings">
+    <h3>Additional Earnings</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Number of Nights Week 1</th>
+                <th>Rate per Night</th>
+                <th>Total Night Out Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="nightOutDaysWeek1">0</span></td>
+                <td><input aria-label="Rate per Night Week 1" id="nightOutRateWeek1" step="0.01" type="number" value="28" /></td>
+                <td id="nightOutTotalWeek1">0.00</td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Number of Nights Week 2</th>
+                <th>Rate per Night</th>
+                <th>Total Night Out Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="nightOutDaysWeek2">0</span></td>
+                <td><input aria-label="Rate per Night Week 2" id="nightOutRateWeek2" step="0.01" type="number" value="28" /></td>
+                <td id="nightOutTotalWeek2">0.00</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="symmetric-table">
+    <thead>
+        <tr>
+            <th>Unpaid Break</th>
+            <th>Expenses</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <select id="unpaidBreak">
+                    <option value="0">0 min</option>
+                    <option value="15">15 min</option>
+                    <option value="30">30 min</option>
+                    <option value="45">45 min</option>
+                    <option value="60">1 hour</option>
+                    <option value="75">1 hour 15 min</option>
+                    <option value="90">1 hour 30 min</option>
+                    <option value="105">1 hour 45 min</option>
+                    <option value="120">2 hours</option>
+                </select>
+            </td>
+            <td>
+                <input type="number" id="expenses" step="0.01" placeholder="0.00">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
          
         <div>
             <button onclick="calculateAll()">Calculate All</button>
@@ -593,69 +685,59 @@
         }
 
         function calculateAll() {
-            if (!validateInputs()) {
-                return;
+    if (!validateInputs()) {
+        return;
+    }
+
+    let totalHours = 0;
+    let totalSalary = 0;
+    let week1Hours = 0, week1Salary = 0;
+    let week2Hours = 0, week2Salary = 0;
+
+    const unpaidBreak = parseFloat(document.getElementById('unpaidBreak').value) || 0; // In minutes
+    const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+
+    for (let i = 1; i <= 14; i++) {
+        const start = document.getElementById(`start${i}`).value;
+        const end = document.getElementById(`end${i}`).value;
+        const rate = parseFloat(document.getElementById(`rate${i}`).value) || 0;
+
+        if (start && end && rate > 0) {
+            const hoursWorked = calculateHours(start, end) - (unpaidBreak / 60); // Subtract unpaid break
+            const salary = hoursWorked * rate;
+
+            totalHours += hoursWorked > 0 ? hoursWorked : 0; // Avoid negative hours
+            totalSalary += salary;
+
+            document.getElementById(`hours${i}`).textContent = hoursWorked.toFixed(2);
+            document.getElementById(`salary${i}`).textContent = salary.toFixed(2);
+
+            if (i <= 7) {
+                week1Hours += hoursWorked;
+                week1Salary += salary;
+            } else {
+                week2Hours += hoursWorked;
+                week2Salary += salary;
             }
-
-            let totalHours = 0;
-            let totalSalary = 0;
-            let week1Hours = 0, week1Salary = 0;
-            let week2Hours = 0, week2Salary = 0;
-
-            for (let i = 1; i <= 14; i++) {
-                const start = document.getElementById(`start${i}`).value;
-                const end = document.getElementById(`end${i}`).value;
-                const rate = parseFloat(document.getElementById(`rate${i}`).value) || 0;
-
-                if (start && end && rate > 0) {
-                    const hoursWorked = calculateHours(start, end);
-                    const salary = hoursWorked * rate;
-
-                    totalHours += hoursWorked;
-                    totalSalary += salary;
-
-                    document.getElementById(`hours${i}`).textContent = hoursWorked.toFixed(2);
-                    document.getElementById(`salary${i}`).textContent = salary.toFixed(2);
-
-                    if (i <= 7) {
-                        week1Hours += hoursWorked;
-                        week1Salary += salary;
-                    } else {
-                        week2Hours += hoursWorked;
-                        week2Salary += salary;
-                    }
-                } else {
-                    document.getElementById(`hours${i}`).textContent = '0';
-                    document.getElementById(`salary${i}`).textContent = '0';
-                }
-            }
-
-            // Get night out totals
-            const nightOutTotalWeek1 = parseFloat(document.getElementById('nightOutTotalWeek1').textContent) || 0;
-            const nightOutTotalWeek2 = parseFloat(document.getElementById('nightOutTotalWeek2').textContent) || 0;
-
-            document.getElementById('totalHours').textContent = totalHours.toFixed(2);
-            document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
-            document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotalWeek1 + nightOutTotalWeek2).toFixed(2);
-
-            document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
-            document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
-            document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotalWeek1).toFixed(2);
-
-            document.getElementById('week2Hours').textContent = week2Hours.toFixed(2);
-            document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
-            document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotalWeek2).toFixed(2);
-
-            // Calculate the combined salary for both weeks including nights out
-            const totalCombined = week1Salary + nightOutTotalWeek1 + week2Salary + nightOutTotalWeek2;
-            document.getElementById('totalSalaryCombined').textContent = totalCombined.toFixed(2);
-
-            // Store and calculate monthly totals
-            calculateMonthlyTotals(totalSalary);
-
-            // Keep track of previous month's salary
-            storePreviousMonthSalary();
+        } else {
+            document.getElementById(`hours${i}`).textContent = '0';
+            document.getElementById(`salary${i}`).textContent = '0';
         }
+    }
+
+    // Add Expenses
+    totalSalary += expenses;
+
+    // Update summary fields
+    document.getElementById('totalHours').textContent = totalHours.toFixed(2);
+    document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
+
+    const nightOutTotalWeek1 = parseFloat(document.getElementById('nightOutTotalWeek1').textContent) || 0;
+    const nightOutTotalWeek2 = parseFloat(document.getElementById('nightOutTotalWeek2').textContent) || 0;
+
+    document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotalWeek1 + nightOutTotalWeek2).toFixed(2);
+}
+
 
         function calculateMonthlyTotals(currentTotalSalary) {
             const now = new Date();
