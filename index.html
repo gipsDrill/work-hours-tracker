@@ -316,7 +316,6 @@
             <button onclick="calculateAll()">Calculate All</button>
             <button onclick="saveData()">Save Data</button>
             <button onclick="loadData()">Load Data</button>
-            <button onclick="downloadData()">Download Data (TXT)</button>
             <button onclick="downloadExcel()">Download Data (Excel)</button>
             <button onclick="generatePDF()">Download Report (PDF)</button>
 
@@ -378,7 +377,7 @@
                 <li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
             </ul>
             <p><strong>7. Pobieranie danych jako plik:</strong></p>
-            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Data (TXT)"</strong> dla zwykłego pliku tekstowego lub <strong>"Download Data (Excel)"</strong> dla pliku zgodnego z Excel. Spowoduje to utworzenie pliku do pobrania, tekstowego (.txt) lub arkusz kalkulacyjny  (.xlsx), który będzie zawierał wszystkie wprowadzone dane. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
+            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Report (PDF)"</strong> lub <strong>"Download Data (Excel)"</strong> dla pliku zgodnego z Excel. Spowoduje to utworzenie pliku do pobrania, który będzie zawierał wszystkie wprowadzone dane. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
             <p><strong>8. Dodanie ikony szybkiego dostępu na pulpit:</strong></p>
             <p>Jeśli chcesz szybko otwierać narzędzie bezpośrednio z ekranu głównego telefonu, wykonaj poniższe kroki:</p>
             <ul>
@@ -433,7 +432,7 @@
                 <li><strong>How does it work?</strong> Clicking “Load Data” automatically retrieves the saved data from local storage and displays it on the page, so you don't have to re-enter it.</li>
             </ul>
             <p><strong>7. Downloading data as a file:</strong></p>
-            <p>If you want to download your data, click the <strong>"Download Data (TXT)"</strong> button. This will create a text file (.txt) that will contain all the entered work hour data, rates, and salaries. You can save this file to your computer to keep a copy of your data in text format.</p>
+            <p>If you want to download your data, click the <strong>"Download Data"</strong> button. This will create a text file that will contain all the entered work hour data, rates, and salaries. You can save this file to your computer to keep a copy of your data in text format.</p>
             <p><strong>8. Adding a shortcut icon to the home screen:</strong></p>
             <p>If you want to quickly open the tool directly from your phone's home screen, follow the steps below:</p>
             <ul>
@@ -748,29 +747,7 @@
             }
         }
 
-        function downloadData() {
-            let textContent = "Work Hours & Salary Data\n\n";
-            for (let i = 1; i <= 14; i++) {
-                textContent += `Day: ${document.getElementById(`start${i}`).value} | Date: ${document.getElementById(`date${i}`).value} | Start: ${document.getElementById(`start${i}`).value} | End: ${document.getElementById(`end${i}`).value} | Hours: ${document.getElementById(`hours${i}`).textContent} | Rate: £${document.getElementById(`rate${i}`).value} | Salary: £${document.getElementById(`salary${i}`).textContent} | Night Out: ${document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No'}\n`;
-            }
-
-            textContent += "\nTotal Hours Worked: " + document.getElementById('totalHours').textContent + " hours\n";
-            textContent += "Total Salary: £" + document.getElementById('totalSalary').textContent + "\n";
-            textContent += "Total Salary including Night Out: £" + document.getElementById('totalWithNightOut').textContent + "\n";
-            textContent += "Total Salary including Nights Out for Week 1: £" + document.getElementById('week1TotalWithNightOut').textContent + "\n";
-            textContent += "Total Salary including Nights Out for Week 2: £" + document.getElementById('week2TotalWithNightOut').textContent + "\n";
-            textContent += "Total Salary including Nights Out for Week 1 & Week 2: £" + document.getElementById('totalSalaryCombined').textContent + "\n";
-
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'work_hours_data.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
+        
 
         function downloadExcel() {
             const workbook = XLSX.utils.book_new();
