@@ -436,39 +436,42 @@
         <button id="toggleInstructionEnglish" onclick="toggleInstructionLanguage('english')">Show/Hide English Instructions</button>
 
         <div id="instructionPolish" class="instruction">
-            <h3>Instrukcja Obsługi</h3>
-            <p><strong>1. Wprowadzanie danych o godzinach pracy:</strong></p>
-            <p>Wypełnij formularz, aby dodać godziny pracy na każdy dzień:</p>
-            <ul>
-                <li>Dzień tygodnia – dni są już wstępnie wypełnione (np. Poniedziałek, Wtorek itd.).</li>
-                <li>Wprowadź datę pracy w odpowiedniej kolumnie „Date” (format: dzień-miesiąc-rok).</li>
-                <li>Wprowadź godzinę rozpoczęcia pracy w polu „Start Time” oraz godzinę zakończenia pracy w polu „End Time”.</li>
-                <li>Po wprowadzeniu daty i godzin, kliknij przycisk <strong>"Calculate All"</strong>, program automatycznie obliczy ilość przepracowanych godzin (minus 45min przerwa) i wynagrodzenie na podstawie stawki godzinowej.</li>
-            </ul>
-            <p><strong>2. Ustawienie stawki godzinowej:</strong></p>
-            <p>Stawka godzinowa jest domyślnie ustawiona na 15,5 GBP na dzień roboczy. Dla weekendów (sobota i niedziela), stawka godzinowa jest automatycznie ustawiana na 17,5 GBP. Możesz zmieniać stawkę godzinową ręcznie, jeśli Twoja stawka jest inna niż domyślna.</p>
-            <p><strong>3. Obliczanie godzin pracy i wynagrodzenia:</strong></p>
-            <p>Po wprowadzeniu wszystkich danych (data, godzin rozpoczęcia, zakończenia i stawki), kliknij przycisk <strong>"Calculate All"</strong>, aby obliczyć:</p>
-            <ul>
-                <li><strong>Łączną liczbę godzin</strong> pracy dla całego okresu (14 dni).</li>
-                <li><strong>Łączne wynagrodzenie</strong> na podstawie wprowadzonych danych (ilość godzin * stawka godzinowa).</li>
-            </ul>
-            <p><strong>4. Dodatkowe wynagrodzenie za "Night Out":</strong></p>
-            <p>Jeśli masz dni pracy jako "Night Out", zaznacz pole wyboru dla każdego z tych dni w tabeli. Program automatycznie zliczy wszystkie zaznaczone dni i obliczy dodatkowe wynagrodzenie na podstawie stawki za każdą noc. Zobaczysz podsumowanie dla obu tygodni: łączną liczbę nights oraz wynagrodzenie w sekcji „Podsumowanie tygodnia”.</p>
-            <p><strong>5. Zapisanie danych:</strong></p>
-            <p>Zanim opuścisz stronę lub chcesz zatrzymać swoje dane na później, kliknij przycisk <strong>"Save Data"</strong>, aby zapisać wszystkie wprowadzone dane (godziny pracy, stawki i wynagrodzenie). Dane będą zapisane w Twojej przeglądarki (bez potrzeby logowania się czy rejestracji).</p>
-            <ul>
-                <li><strong>Jak to działa?</strong> Twoje dane zostaną zapisane lokalnie w przeglądarki, więc przy następnym otwarciu strony będziesz mógł wczytać te same dane, bez potrzeby ich ponownego wprowadzania.</li>
-                <li><strong>Gdzie to jest zapisane?</strong> Dane są przechowywane w przeglądarki (w tzw. „localStorage”), więc są dostępne tylko na urządzeniu, na którym je zapisałeś.</li>
-            </ul>
-            <p><strong>6. Ładowanie zapisanych danych:</strong></p>
-            <p>Jeśli chcesz wczytać dane, które wcześniej zapisałeś, kliknij przycisk <strong>"Load Data"</strong> i następnie <strong>"Calculate All"</strong>. Program załaduje zapisane dane z Twojej przeglądarki i uzupełni formularz o te informacje.</p>
-            <ul>
-                <li><strong>Jak to działa?</strong> Klikając „Load Data”, przeglądarka automatycznie pobiera zapisane dane z pamięci lokalnej i wyświetla je na stronie, dzięki czemu nie musisz ich ponownie wprowadzać.</li>
-            </ul>
-            <p><strong>7. Pobieranie danych jako plik:</strong></p>
-            <p>Jeśli chcesz pobrać dane, kliknij przycisk <strong>"Download Report (PDF)"</strong> lub <strong>"Download Data (Excel)"</strong> dla pliku zgodnego z Excel. Spowoduje to utworzenie pliku do pobrania, który będzie zawierał wszystkie wprowadzone dane. Możesz ten plik zapisać na swoim komputerze, aby mieć kopię swoich danych w formie tekstowej.</p>
-            <p><strong>8. Dodanie ikony szybkiego dostępu na pulpit:</strong></p>
+            <h2>Instrukcja Obsługi Work Hours & Salary Tracker</h2>
+
+    <h3>1. Wprowadzanie danych o godzinach pracy</h3>
+    <p>W sekcji głównej strony wprowadź dane dotyczące przepracowanych godzin:</p>
+    <ul>
+        <li><strong>Dzień tygodnia:</strong> W tabeli widoczne są dni tygodnia w dwóch tygodniach pracy (Week 1 i Week 2).</li>
+        <li><strong>Data:</strong> Wprowadź datę w kolumnie <em>Date</em> (format: dzień-miesiąc-rok).</li>
+        <li><strong>Godzina rozpoczęcia i zakończenia pracy:</strong> Wypełnij pola <em>Start Time</em> i <em>End Time</em>. Jeśli godziny pracy przekraczają północ, system automatycznie dostosuje obliczenia.</li>
+        <li><strong>Stawka godzinowa:</strong> Domyślnie ustawiona na £15.5 dla dni roboczych i £17.5 dla weekendów. Możesz zmienić stawkę ręcznie, wpisując wartość w odpowiednie pole.</li>
+    </ul>
+    <p>Po wprowadzeniu danych kliknij przycisk <strong>Calculate All</strong>, aby obliczyć przepracowane godziny oraz wynagrodzenie.</p>
+
+    <h3>2. Tabela Additional Earnings</h3>
+    <p>Ta sekcja umożliwia dodanie dodatkowych informacji związanych z przerwami i kosztami:</p>
+    <ul>
+        <li><strong>Unpaid Break:</strong> Wybierz długość niepłatnej przerwy (w minutach) z rozwijanej listy. System automatycznie uwzględni przerwę przy obliczaniu przepracowanych godzin.</li>
+        <li><strong>Expenses:</strong> Wprowadź ręcznie dodatkowe koszty, które mają zostać dodane do wynagrodzenia.</li>
+    </ul>
+    <p>System automatycznie zaktualizuje wszystkie sumy wynagrodzeń uwzględniając te dane.</p>
+
+    <h3>3. Funkcja zapisu i wczytywania danych</h3>
+    <p>Przed opuszczeniem strony możesz zapisać swoje dane:</p>
+    <ul>
+        <li>Kliknij przycisk <strong>Save Data</strong>, aby zapisać wszystkie wprowadzone informacje w przeglądarce.</li>
+        <li>Aby wczytać zapisane dane, kliknij <strong>Load Data</strong> i następnie <strong>Calculate All</strong>, aby ponownie obliczyć wartości.</li>
+    </ul>
+    <p>Dane są przechowywane lokalnie w przeglądarce i dostępne na tym samym urządzeniu.</p>
+
+    <h3>4. Generowanie raportów</h3>
+    <p>Masz możliwość pobrania swoich danych w różnych formatach:</p>
+    <ul>
+        <li><strong>Download Report (PDF):</strong> Pobiera szczegółowy raport w formacie PDF, zawierający dane godzin pracy, stawek i wynagrodzeń oraz podsumowanie tygodniowe i miesięczne.</li>
+        <li><strong>Download Data (Excel):</strong> Pobiera dane w formacie Excel.</li>
+    </ul>
+
+            <h3>5. Dodanie ikony szybkiego dostępu na pulpit</h3>
             <p>Jeśli chcesz szybko otwierać narzędzie bezpośrednio z ekranu głównego telefonu, wykonaj poniższe kroki:</p>
             <ul>
                 <li><strong>Na telefonach z systemem Android:</strong></li>
@@ -491,39 +494,41 @@
         </div>
 
         <div id="instructionEnglish" class="instruction">
-            <h3>Instructions</h3>
-            <p><strong>1. Entering work hour data:</strong></p>
-            <p>Fill out the form to add work hours for each day:</p>
-            <ul>
-                <li>Day of the week – days are pre-filled (e.g., Monday, Tuesday, etc.).</li>
-                <li>Enter the work date in the appropriate "Date" column (format: day-month-year).</li>
-                <li>Enter the start time in the "Start Time" field and the end time in the "End Time" field.</li>
-                <li>After entering the date and times, click the <strong>"Calculate All"</strong> button. The program will automatically calculate the hours worked (minus a 45-minute break) and the salary based on the hourly rate.</li>
-            </ul>
-            <p><strong>2. Setting the hourly rate:</strong></p>
-            <p>The hourly rate is set to a default of £15.5 for weekdays. For weekends (Saturday and Sunday), the hourly rate is automatically set to £17.5. You can change the hourly rate manually if your rate is different from the default.</p>
-            <p><strong>3. Calculating work hours and salary:</strong></p>
-            <p>After entering all data (date, start time, end time, and rate), click the <strong>"Calculate All"</strong> button to calculate:</p>
-            <ul>
-                <li><strong>Total number of hours</strong> worked for the entire period (14 days).</li>
-                <li><strong>Total salary</strong> based on the entered data (number of hours * hourly rate).</li>
-            </ul>
-            <p><strong>4. Additional earnings for "Night Out":</strong></p>
-            <p>If you have days classified as "Night Out," check the box for each of those days in the work hours table. The program will automatically count all checked nights out and calculate additional earnings based on the rate for each night. You will see a summary for both weeks: the total number of nights and the additional pay in the "Weekly Summary" section.</p>
-            <p><strong>5. Saving your data:</strong></p>
-            <p>Before leaving the page or if you want to keep your data for later, click the <strong>"Save Data"</strong> button to save all entered data (work hours, rates, and salary). The data will be saved in your browser (no login or registration required).</p>
-            <ul>
-                <li><strong>How does it work?</strong> Your data will be stored locally in your browser, so next time you open the page, you can load the same data without re-entering it.</li>
-                <li><strong>Where is it saved?</strong> The data is stored in the browser (in "localStorage"), so it is only accessible on the device you saved it on.</li>
-            </ul>
-            <p><strong>6. Loading saved data:</strong></p>
-            <p>If you want to load data you previously saved, click the <strong>"Load Data"</strong> button and then <strong>"Calculate All"</strong>. The program will load the saved data from your browser and fill the form with that information.</p>
-            <ul>
-                <li><strong>How does it work?</strong> Clicking “Load Data” automatically retrieves the saved data from local storage and displays it on the page, so you don't have to re-enter it.</li>
-            </ul>
-            <p><strong>7. Downloading data as a file:</strong></p>
-            <p>If you want to download your data, click the <strong>"Download Data"</strong> button. This will create a text file that will contain all the entered work hour data, rates, and salaries. You can save this file to your computer to keep a copy of your data in text format.</p>
-            <p><strong>8. Adding a shortcut icon to the home screen:</strong></p>
+            <h2>Work Hours & Salary Tracker User Manual</h2>
+
+    <h3>1. Entering Work Hour Data</h3>
+    <p>In the main section of the page, input your work hour data:</p>
+    <ul>
+        <li><strong>Day of the Week:</strong> Days are pre-filled for two work weeks (Week 1 and Week 2).</li>
+        <li><strong>Date:</strong> Enter the date in the <em>Date</em> column (format: day-month-year).</li>
+        <li><strong>Start and End Time:</strong> Fill in the <em>Start Time</em> and <em>End Time</em> fields. If working hours cross midnight, the system automatically adjusts calculations.</li>
+        <li><strong>Hourly Rate:</strong> Default rates are £15.5 for weekdays and £17.5 for weekends. You can manually adjust the rate if needed.</li>
+    </ul>
+    <p>After entering the data, click the <strong>Calculate All</strong> button to calculate worked hours and salary.</p>
+
+    <h3>2. Additional Earnings Table</h3>
+    <p>This section allows you to input additional details related to breaks and expenses:</p>
+    <ul>
+        <li><strong>Unpaid Break:</strong> Choose the length of your unpaid break (in minutes) from the dropdown. The system automatically accounts for the break when calculating total hours worked.</li>
+        <li><strong>Expenses:</strong> Enter any additional costs manually. These will be added to the total salary.</li>
+    </ul>
+    <p>The system will automatically update all salary totals to reflect these inputs.</p>
+
+    <h3>3. Save and Load Data</h3>
+    <p>Before leaving the page, you can save your data:</p>
+    <ul>
+        <li>Click the <strong>Save Data</strong> button to store all entered information in your browser.</li>
+        <li>To reload saved data, click <strong>Load Data</strong>, then <strong>Calculate All</strong> to recalculate the values.</li>
+    </ul>
+    <p>Data is stored locally in your browser and accessible only on the same device and browser.</p>
+
+    <h3>4. Generating Reports</h3>
+    <p>You can download your data in different formats:</p>
+    <ul>
+        <li><strong>Download Report (PDF):</strong> Downloads a detailed PDF report containing work hours, rates, and salary data, as well as weekly and monthly summaries.</li>
+        <li><strong>Download Data (Excel):</strong> Downloads data in Excel format.</li>
+    </ul>
+            <h3>5. Adding a shortcut icon to the home screen</h3>
             <p>If you want to quickly open the tool directly from your phone's home screen, follow the steps below:</p>
             <ul>
                 <li><strong>On Android phones:</strong></li>
