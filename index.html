@@ -641,7 +641,7 @@
             if (diff < 0) {
                 diff += 1440; // Correction for overnight shifts
             }
-            diff -= 45; // Subtract 45 minutes break
+            diff -= 00; // Subtract 45 minutes break
             return roundToQuarterHour(diff) / 60;
         }
 
