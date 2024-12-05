@@ -428,11 +428,7 @@
             <p><strong>Total Salary including Nights Out for Week 1 & Week 2: </strong>£<span id="totalSalaryCombined">0</span></p>
         </div>
 
-        <div class="monthly-summary">
-            <h3>Monthly Summary</h3>
-            <p><strong>Total Salary for the Current Month of December including Night Out: </strong>£<span id="monthlyCurrentIncludingNightOut">0</span></p>
-            <p><strong>Total Salary for the Previous Month including Night Out: </strong>£<span id="monthlyPreviousIncludingNightOut">0</span></p>
-        </div>
+      
 
         <div class="error" id="errorMessages"></div>
 
@@ -813,7 +809,7 @@
         window.onload = function () {
             initCurrentMonth();
             storePreviousMonthSalary(); // Store previous month salary on load
-        };
+        }
 
         function saveData() {
             const data = {};
