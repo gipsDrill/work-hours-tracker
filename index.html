@@ -728,15 +728,33 @@
     // Add Expenses
     totalSalary += expenses;
 
-    // Update summary fields
-    document.getElementById('totalHours').textContent = totalHours.toFixed(2);
-    document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
-
+    // Night Out Calculations
     const nightOutTotalWeek1 = parseFloat(document.getElementById('nightOutTotalWeek1').textContent) || 0;
     const nightOutTotalWeek2 = parseFloat(document.getElementById('nightOutTotalWeek2').textContent) || 0;
 
+    // Update total fields
+    document.getElementById('totalHours').textContent = totalHours.toFixed(2);
+    document.getElementById('totalSalary').textContent = totalSalary.toFixed(2);
     document.getElementById('totalWithNightOut').textContent = (totalSalary + nightOutTotalWeek1 + nightOutTotalWeek2).toFixed(2);
+
+    // Update weekly summaries
+    document.getElementById('week1Hours').textContent = week1Hours.toFixed(2);
+    document.getElementById('week1Salary').textContent = week1Salary.toFixed(2);
+    document.getElementById('week1TotalWithNightOut').textContent = (week1Salary + nightOutTotalWeek1).toFixed(2);
+
+    document.getElementById('week2Hours').textContent = week2Hours.toFixed(2);
+    document.getElementById('week2Salary').textContent = week2Salary.toFixed(2);
+    document.getElementById('week2TotalWithNightOut').textContent = (week2Salary + nightOutTotalWeek2).toFixed(2);
+
+    // Calculate combined totals
+    document.getElementById('totalSalaryCombined').textContent = (
+        week1Salary + nightOutTotalWeek1 + week2Salary + nightOutTotalWeek2
+    ).toFixed(2);
 }
+
+
+// Add Expenses
+    totalSalary += expenses;
 
 
         function calculateMonthlyTotals(currentTotalSalary) {
