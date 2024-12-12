@@ -283,20 +283,20 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
         }
         .video-thumbnail {
             text-align: center;
-            width: 30%;
+            width: 18%;
         }
         .video-thumbnail iframe {
             width: 100%;
-            height: 200px;
+            height: 120px;
             border: none;
         }
         .video-thumbnail p {
             margin-top: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .footer {
@@ -936,72 +936,66 @@
         }
 
         function generatePDF() {
-    const { jsPDF } = window.jspdf; // Import jsPDF
-    const pdf = new jsPDF();
+            const { jsPDF } = window.jspdf; // Import jsPDF
+            const pdf = new jsPDF();
 
-    // Dodaj tytuł
-    pdf.setFontSize(20);
-    pdf.text("Work Hours & Salary Tracker", 10, 10);
-    pdf.setFontSize(12);
-    pdf.text("Generated Report", 10, 20);
+            // Title
+            pdf.setFontSize(20);
+            pdf.text("Work Hours & Salary Tracker", 10, 10);
+            pdf.setFontSize(12);
+            pdf.text("Generated Report", 10, 20);
 
-    // Przygotuj dane do tabeli
-    const tableData = [];
-    const headers = ["Day", "Date", "Start", "End", "Hours", "Rate (£)", "Salary (£)"];
-    
-    for (let i = 1; i <= 14; i++) {
-        const dayName = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][(i - 1) % 7];
-        const date = document.getElementById(`date${i}`).value || '-';
-        const start = document.getElementById(`start${i}`).value || '-';
-        const end = document.getElementById(`end${i}`).value || '-';
-        const hours = document.getElementById(`hours${i}`).textContent || '0';
-        const rate = document.getElementById(`rate${i}`).value || '0';
-        const salary = document.getElementById(`salary${i}`).textContent || '0';
+            // Table headers
+            const headers = ["Day", "Date", "Start", "End", "Hours", "Rate (£)", "Salary (£)", "Night Out"];
+            const tableData = [];
 
-        tableData.push([dayName, date, start, end, hours, rate, salary]);
-    }
+            // Fill table data dynamically
+            for (let i = 1; i <= 14; i++) {
+                const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][(i - 1) % 7];
+                const date = document.getElementById(`date${i}`)?.value || '-';
+                const start = document.getElementById(`start${i}`)?.value || '-';
+                const end = document.getElementById(`end${i}`)?.value || '-';
+                const hours = document.getElementById(`hours${i}`)?.textContent || '0';
+                const rate = document.getElementById(`rate${i}`)?.value || '0';
+                const salary = document.getElementById(`salary${i}`)?.textContent || '0';
+                const nightOut = document.getElementById(`nightOut${i}`)?.checked ? 'Yes' : 'No';
 
-    // Wygeneruj tabelę w PDF
-    pdf.autoTable({
-        head: [headers],
-        body: tableData,
-        startY: 30, // Gdzie zaczyna się tabela
-    });
+                tableData.push([day, date, start, end, hours, rate, salary, nightOut]);
+            }
 
-    // Dodaj podsumowanie tygodniowe
-    let y = pdf.autoTable.previous.finalY + 10; // Przerwa po tabeli
-    pdf.setFontSize(12);
-    pdf.text("Weekly Summary", 10, y);
-    y += 10;
+            // Generate table
+            pdf.autoTable({
+                head: [headers],
+                body: tableData,
+                startY: 30,
+            });
 
-    const week1Hours = document.getElementById('week1Hours').textContent || '0';
-    const week1TotalWithNightOut = document.getElementById('week1TotalWithNightOut').textContent || '0';
-    const week2Hours = document.getElementById('week2Hours').textContent || '0';
-    const week2TotalWithNightOut = document.getElementById('week2TotalWithNightOut').textContent || '0';
-    const totalSalaryCombined = document.getElementById('totalSalaryCombined').textContent || '0';
+            // Add summary
+            let y = pdf.autoTable.previous.finalY + 10;
+            pdf.setFontSize(12);
+            pdf.text("Summary", 10, y);
+            y += 10;
 
-    const weeklySummary = [
-        `Week 1: Total Hours: ${week1Hours}`,
-        `Week 1: Total including Night Out: £${week1TotalWithNightOut}`,
-        `Week 2: Total Hours: ${week2Hours}`,
-        `Week 2: Total including Night Out: £${week2TotalWithNightOut}`,
-        `Total Salary including Nights Out for Week 1 & Week 2: £${totalSalaryCombined}`
-    ];
+            const totalHours = document.getElementById('totalHours')?.textContent || '0';
+            const totalSalary = document.getElementById('totalSalary')?.textContent || '0';
+            const nightOutWeek1 = document.getElementById('nightOutTotalWeek1')?.textContent || '0';
+            const nightOutWeek2 = document.getElementById('nightOutTotalWeek2')?.textContent || '0';
 
-    weeklySummary.forEach((line) => {
-        pdf.text(line, 10, y);
-        y += 10;
-    });
+            const summaryLines = [
+                `Total Hours Worked: ${totalHours}`,
+                `Total Salary: £${totalSalary}`,
+                `Night Out Week 1: £${nightOutWeek1}`,
+                `Night Out Week 2: £${nightOutWeek2}`,
+            ];
 
-    // Dodaj podsumowanie ogólne
-    y += 10; // Przerwa przed podsumowaniem
-    pdf.text(`Total Hours Worked: ${document.getElementById('totalHours').textContent || '0'}`, 10, y);
-    pdf.text(`Total Salary: £${document.getElementById('totalSalary').textContent || '0'}`, 10, y + 10);
-    pdf.text(`Total Salary including Night Out: £${document.getElementById('totalWithNightOut').textContent || '0'}`, 10, y + 20);
+            summaryLines.forEach((line) => {
+                pdf.text(line, 10, y);
+                y += 10;
+            });
 
-    // Zapisz plik PDF
-    pdf.save('work_hours_report.pdf');
-}
+            // Save PDF
+            pdf.save('work_hours_report.pdf');
+        }
 
     </script>
 </body>
