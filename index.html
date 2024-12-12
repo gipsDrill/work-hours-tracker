@@ -942,8 +942,8 @@
             // Title
             pdf.setFontSize(20);
             pdf.text("Work Hours & Salary Tracker", 10, 10);
-            pdf.setFontSize(12);
-            pdf.text("Generated Report", 10, 20);
+            pdf.setFontSize(10);
+            pdf.text("GENERATED REPORT", 10, 20);
 
             // Table headers
             const headers = ["Day", "Date", "Start", "End", "Hours", "Rate (£)", "Salary (£)", "Night Out"];
@@ -973,7 +973,7 @@
             // Add summary
             let y = pdf.autoTable.previous.finalY + 10;
             pdf.setFontSize(12);
-            pdf.text("Summary", 10, y);
+            pdf.text("SUMMARY", 10, y);
             y += 10;
 
             
