@@ -840,7 +840,8 @@ function showWeek1And2() {
             totalSalary += salary;
 
             document.getElementById(`hours${i}`).textContent = hoursWorked.toFixed(2);
-            document.getElementById(`salary${i}`).textContent = salary.toFixed(2);
+            // Formatting the salary as currency
+            document.getElementById(`salary${i}`).textContent = '£' + salary.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             if (i <= 7) {
                 week1Hours += hoursWorked;
@@ -851,7 +852,7 @@ function showWeek1And2() {
             }
         } else {
             document.getElementById(`hours${i}`).textContent = '0';
-            document.getElementById(`salary${i}`).textContent = '0';
+            document.getElementById(`salary${i}`).textContent = '£0.00'; // Also format when no salary
         }
     }
 
