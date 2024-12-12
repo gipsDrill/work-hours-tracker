@@ -6,11 +6,16 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta property="og:title" content="Work Hours & Salary Tracker" />
-<meta property="og:description" content="Track your work hours and calculate your salary easily." />
-<meta property="og:image" content="https://i.ibb.co/2tTHZ3h/Miniatura-Linku.jpg" />
-<meta property="og:url" content="https://gipsdrill.github.io/work-hours-tracker/" />
+    <meta property="og:description" content="Track your work hours and calculate your salary easily." />
+    <meta property="og:image" content="https://i.ibb.co/2tTHZ3h/Miniatura-Linku.jpg" />
+    <meta property="og:url" content="https://gipsdrill.github.io/work-hours-tracker/" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+    
+    
+
 
     <title>Work Hours & Salary Tracker</title>
     <style>
@@ -976,44 +981,55 @@ function showWeek1And2() {
 
         
 
-        function downloadExcel() {
-            const workbook = XLSX.utils.book_new();
-            const wsData = [['Day', 'Date', 'Start Time', 'End Time', 'Hours Worked', 'Hourly Rate', 'Salary', 'Night Out']];
+      
+    function downloadExcel() {
+    const workbook = XLSX.utils.book_new();
+    const wsData = [['Day', 'Date', 'Start Time', 'End Time', 'Hours Worked', 'Hourly Rate', 'Salary', 'Night Out']];
 
-            const fullDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-            for (let i = 1; i <= 14; i++) {
-                const dayIndex = (i - 1) % 7; 
-                const dayName = fullDays[dayIndex]; 
-                const date = document.getElementById(`date${i}`).value;
-                const start = document.getElementById(`start${i}`).value;
-                const end = document.getElementById(`end${i}`).value;
-                const hoursWorked = document.getElementById(`hours${i}`).textContent;
-                const hourlyRate = document.getElementById(`rate${i}`).value;
-                const salary = document.getElementById(`salary${i}`).textContent;
-                const nightOut = document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No';
+    const fullDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    
+    // Gather daily data
+    for (let i = 1; i <= 14; i++) {
+        const dayIndex = (i - 1) % 7; 
+        const dayName = fullDays[dayIndex]; 
+        const date = document.getElementById(`date${i}`).value;
+        const start = document.getElementById(`start${i}`).value;
+        const end = document.getElementById(`end${i}`).value;
+        const hoursWorked = document.getElementById(`hours${i}`).textContent;
+        const hourlyRate = document.getElementById(`rate${i}`).value;
+        const salary = document.getElementById(`salary${i}`).textContent;
+        const nightOut = document.getElementById(`nightOut${i}`).checked ? 'Yes' : 'No';
 
-                wsData.push([dayName, date, start, end, hoursWorked, hourlyRate, salary, nightOut]);
-            }
+        wsData.push([dayName, date, start, end, hoursWorked, hourlyRate, salary, nightOut]);
+    }
 
-            const totalHours = document.getElementById('totalHours').textContent;
-            const totalSalary = document.getElementById('totalSalary').textContent;
-            const totalSalaryIncludingNightOut = document.getElementById('totalWithNightOut').textContent;
-            const totalSalaryCombined = document.getElementById('totalSalaryCombined').textContent;
-            const totalNightOutPayWeek1 = document.getElementById('nightOutTotalWeek1').textContent;
-            const totalNightOutPayWeek2 = document.getElementById('nightOutTotalWeek2').textContent;
+    // Add weekly totals
+    const week1Hours = document.getElementById('week1Hours').textContent || '0';
+    const week1Salary = document.getElementById('week1Salary').textContent || '0';
+    const nightOutTotalWeek1 = document.getElementById('nightOutTotalWeek1').textContent || '0';
+    const week2Hours = document.getElementById('week2Hours').textContent || '0';
+    const week2Salary = document.getElementById('week2Salary').textContent || '0';
+    const nightOutTotalWeek2 = document.getElementById('nightOutTotalWeek2').textContent || '0';
 
-            wsData.push(['', '', '', '', '', 'Total Hours:', totalHours, '']);
-            wsData.push(['', '', '', '', '', 'Total Salary:', totalSalary, '']);
-            wsData.push(['', '', '', '', '', 'Total Night Out Pay Week 1:', totalNightOutPayWeek1, '']);
-            wsData.push(['', '', '', '', '', 'Total Night Out Pay Week 2:', totalNightOutPayWeek2, '']);
-            wsData.push(['', '', '', '', '', 'Total Salary including Nights Out for Week 1:', (parseFloat(totalNightOutPayWeek1) + parseFloat(document.getElementById('week1Salary').textContent)).toFixed(2), '']);
-            wsData.push(['', '', '', '', '', 'Total Salary including Nights Out for Week 2:', (parseFloat(totalNightOutPayWeek2) + parseFloat(document.getElementById('week2Salary').textContent)).toFixed(2), '']);
-            wsData.push(['', '', '', '', '', 'Total Salary including Nights Out for Week 1 & Week 2:', totalSalaryCombined, '']);
+    wsData.push(['', '', '', '', '', 'Week 1 Totals', `Hours: ${week1Hours}`, `Salary: £${parseFloat(week1Salary) + parseFloat(nightOutTotalWeek1)}`]);
+    wsData.push(['', '', '', '', '', 'Week 2 Totals', `Hours: ${week2Hours}`, `Salary: £${parseFloat(week2Salary) + parseFloat(nightOutTotalWeek2)}`]);
+    
+    const totalHours = document.getElementById('totalHours').textContent;
+    const totalSalaryIncludingNightOut = document.getElementById('totalWithNightOut').textContent;
 
-            const worksheet = XLSX.utils.aoa_to_sheet(wsData);
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Work Hours");
-            XLSX.writeFile(workbook, "Work_Hours_Data.xlsx");
-        }
+    wsData.push(['', '', '', '', '', 'Overall Total', `Hours: ${totalHours}`, `Salary: £${totalSalaryIncludingNightOut}`]);
+
+    const worksheet = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Work Hours");
+    XLSX.writeFile(workbook, "Work_Hours_Data.xlsx");
+}
+       
+
+
+
+
+
+
 
         function generatePDF() {
             const { jsPDF } = window.jspdf; // Import jsPDF
@@ -1089,6 +1105,8 @@ function showWeek1And2() {
             
 
     </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 </body>
 
 </html>
