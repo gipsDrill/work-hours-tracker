@@ -279,6 +279,26 @@
             }
         }
 
+        .video-thumbnails {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .video-thumbnail {
+            text-align: center;
+            width: 30%;
+        }
+        .video-thumbnail iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+        .video-thumbnail p {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
         .footer {
             display: flex;
             align-items: center;
@@ -557,6 +577,21 @@
                     <li>Click <strong>Add</strong> to create a shortcut on your home screen.</li>
                 </ol>
             </ul>
+        </div>
+
+        <div class="video-thumbnails">
+            <div class="video-thumbnail">
+                <iframe src="https://www.youtube.com/embed/FzZvE-1Zr4w" allowfullscreen></iframe>
+                <p>Input work hour data</p>
+            </div>
+            <div class="video-thumbnail">
+                <iframe src="https://www.youtube.com/embed/ylnnOC33BR4" allowfullscreen></iframe>
+                <p>Generating Reports</p>
+            </div>
+            <div class="video-thumbnail">
+                <iframe src="https://www.youtube.com/embed/uX3keITRQM0" allowfullscreen></iframe>
+                <p>Reload saved data</p>
+            </div>
         </div>
 
         <div class="note">
