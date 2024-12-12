@@ -976,16 +976,25 @@
             pdf.text("Summary", 10, y);
             y += 10;
 
-            const totalHours = document.getElementById('totalHours')?.textContent || '0';
-            const totalSalary = document.getElementById('totalSalary')?.textContent || '0';
+            
+            const week1Hours = document.getElementById('week1Hours').textContent || '0';
             const nightOutWeek1 = document.getElementById('nightOutTotalWeek1')?.textContent || '0';
+            const week1TotalWithNightOut = document.getElementById('week1TotalWithNightOut').textContent || '0';
+            const week2Hours = document.getElementById('week2Hours').textContent || '0';
             const nightOutWeek2 = document.getElementById('nightOutTotalWeek2')?.textContent || '0';
+            const week2TotalWithNightOut = document.getElementById('week2TotalWithNightOut').textContent || '0';
+            const totalHours = document.getElementById('totalHours')?.textContent || '0';
+            const totalSalaryCombined = document.getElementById('totalSalaryCombined').textContent || '0';
 
             const summaryLines = [
-                `Total Hours Worked: ${totalHours}`,
-                `Total Salary: £${totalSalary}`,
+                `Week 1: Total Hours: ${week1Hours}`,
                 `Night Out Week 1: £${nightOutWeek1}`,
+                `Week 1: Total including Night Out: £${week1TotalWithNightOut}`,
+                `Week 2: Total Hours: ${week2Hours}`,
                 `Night Out Week 2: £${nightOutWeek2}`,
+                `Week 2: Total including Night Out: £${week2TotalWithNightOut}`,
+                `Total Hours Worked: ${totalHours}`,
+                `Total Salary including Nights Out for Week 1 & Week 2: £${totalSalaryCombined}`    
             ];
 
             summaryLines.forEach((line) => {
@@ -996,6 +1005,8 @@
             // Save PDF
             pdf.save('work_hours_report.pdf');
         }
+
+            
 
     </script>
 </body>
