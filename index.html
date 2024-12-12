@@ -326,18 +326,21 @@
     <div class="container">
         <h1>Work Hours & Salary Tracker</h1>
         <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Hours Worked</th>
-                        <th>Hourly Rate</th>
-                        <th>Salary</th>
-                        <th>Night Out</th>
-                    </tr>
+        <button onclick="showWeek1()">Week 1</button>
+        <button onclick="showWeek2()">Week 2</button>
+        <button onclick="showWeek1And2()">Week 1 + Week 2</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Hours Worked</th>
+                    <th>Hourly Rate</th>
+                    <th>Salary</th>
+                    <th>Night Out</th>
+                </tr>
                 </thead>
                 <tbody id="workTable">
                     <script>
@@ -579,26 +582,33 @@
             </ul>
         </div>
 
+        <div class="note">
+            <p><strong>Instruction Video</strong></p>
+        </div>
+
         <div class="video-thumbnails">
             <div class="video-thumbnail">
-                <iframe src="https://www.youtube.com/embed/FzZvE-1Zr4w" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/Hj9KL-SIig4" allowfullscreen></iframe>
                 <p>Input work hour data</p>
             </div>
             <div class="video-thumbnail">
-                <iframe src="https://www.youtube.com/embed/ylnnOC33BR4" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/yEhfalIZnQY" allowfullscreen></iframe>
                 <p>Generating Reports</p>
             </div>
             <div class="video-thumbnail">
-                <iframe src="https://www.youtube.com/embed/uX3keITRQM0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/kR-VmyW1Ps8uX3keITRQM0" allowfullscreen></iframe>
                 <p>Reload saved data</p>
             </div>
         </div>
 
-        <div class="note">
+        
+       <ul>
+       <div class="note">
             Note: Saved data can be loaded on the same device.
         </div>
-
-        <div class="phone-container">
+        
+        
+       <div class="phone-container">
             <p>For best view on mobile devices, rotate your screen horizontally.</p>
             <svg class="phone-icon" fill="none" style="color: #376f39;" viewBox="0 0 24 40" xmlns="http://www.w3.org/2000/svg">
                 <rect fill="none" height="38" rx="2" ry="2" stroke="currentColor" stroke-width="2" width="18" x="3" y="1"></rect>
@@ -606,7 +616,7 @@
                 <circle cx="12" cy="4" fill="currentColor" r="1.5"></circle>
             </svg>
         </div>
-
+        </ul>
         <div class="footer">
             <a href="https://ibb.co/QKywb6q">
                 <img src="https://i.ibb.co/sV8YmFD/yoda-dj-green-logo-zz-KOPIA-B-W.jpg" alt="yoda-dj-green-logo-zz-KOPIA-B-W">
@@ -617,6 +627,71 @@
 
     <script>
         
+        function showWeek(weeks) {
+    const weekTableContainer = document.getElementById('weekTableContainer');
+    weekTableContainer.innerHTML = ''; // Clear previous tables
+
+    const selectedWeeks = typeof weeks === 'string' ? weeks.split(',').map(Number) : [weeks];
+
+    selectedWeeks.forEach(week => {
+        const table = document.createElement('table');
+        const headerRow = generateTableHeader();
+        table.appendChild(headerRow);
+
+        days.forEach((day, index) => {
+            if ((week === 1 && index < 7) || (week === 2 && index >= 7)) {
+                const row = generateTableRow(day, week, index % 7);
+                table.appendChild(row);
+            }
+        });
+
+        const caption = document.createElement('caption');
+        caption.textContent = `Week ${week}`;
+        table.appendChild(caption);
+        weekTableContainer.appendChild(table);
+    });
+}
+
+function showWeek1() {
+    const table = document.querySelector('#workTable');
+    table.querySelectorAll('tr').forEach((tr) => {
+        if (tr.cells[0].textContent.includes('Week 1')) {
+            tr.style.display = 'table-row';
+        } else {
+            tr.style.display = 'none';
+        }
+    });
+}
+
+function showWeek2() {
+    const table = document.querySelector('#workTable');
+    table.querySelectorAll('tr').forEach((tr) => {
+        if (tr.cells[0].textContent.includes('Week 2')) {
+            tr.style.display = 'table-row';
+        } else {
+            tr.style.display = 'none';
+        }
+    });
+}
+
+function showWeek1And2() {
+    const table = document.querySelector('#workTable');
+    table.querySelectorAll('tr').forEach((tr) => {
+        tr.style.display = 'table-row';
+    });
+}   
+
+
+// Initialize selector and display
+        const weekSelector = document.createElement('input');
+        weekSelector.type = 'hidden';
+        weekSelector.id = 'weekSelector';
+        weekSelector.value = '2';
+        document.body.appendChild(weekSelector);
+
+        updateWeekDisplay();
+
+
 
         // Initialize Current Month
         function initCurrentMonth() {
@@ -1013,8 +1088,3 @@
 
 </html>
             
-
-
-
-
-    
